@@ -1,0 +1,5 @@
+admin:
+    resource: ../../src/Controller/Admin/
+    type: attribute
+    prefix: /admin
+    name_prefix: admin_

@@ -90,3 +90,12 @@
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/symfony,visualstudiocode
+
+
+# Lub bardziej precyzyjnie (jeśli folder mysql w katalogu nadrzędnym)
+mysql/#*
+mysql/binlog.*
+mysql/ib*
+mysql/undo_*
+mysql/ibtmp*
+mysql/*
