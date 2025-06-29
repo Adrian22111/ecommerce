@@ -1,0 +1,3 @@
+# Ignoruj zawartość mysql/
+mysql/*
+!mysql/.gitkeep
