@@ -13,10 +13,20 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-        <ul>
-            <li></li>
-        </ul>
-        {% block body %}{% endblock %}
+    <body class="flex">
+        <aside>
+            <ul 
+                class="w-64 h-screen sticky top-0 bg-gray-200 p-2"
+            >
+                <li
+                    class="font-medium text-sm"
+                >
+                    {{'products'|trans(domain='admin.products')}}
+                </li>
+            </ul>
+        </aside>
+        <main>
+            {% block body %}{% endblock %}
+        </main>
     </body>
 </html>
