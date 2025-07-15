@@ -12,8 +12,7 @@ final class AdminPanelController extends AbstractController
     public function index(): Response
     {
         return $this->render('admin/index.html.twig', [
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/AdminPanelController.php',
+
         ]);
     }
 }
