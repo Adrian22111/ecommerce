@@ -11,8 +11,6 @@ final class AdminPanelController extends AbstractController
     #[Route('/', name: 'panel')]
     public function index(): Response
     {
-        return $this->render('admin/index.html.twig', [
-
-        ]);
+        return $this->render('admin/index.html.twig', []);
     }
 }
