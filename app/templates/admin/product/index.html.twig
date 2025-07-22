@@ -1,9 +1,12 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Product index{% endblock %}
+{% block bread %}
+    
+{% endblock %}
+
 
 {% block body %}
-    <div class="max-w-[1440px] mx-auto">
+    <div class="">
         <h1>Product index</h1>
         <div class="grid">
             <div>
@@ -40,6 +43,6 @@
             {% endfor %}
             </div>
         </div>
-        <a href="{{ path('admin_app_product_new') }}">Create new</a>
+        <a href="{{ path('admin_product_new') }}">Create new</a>
     </div>
 {% endblock %}

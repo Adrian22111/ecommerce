@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product;
-use App\Form\ProductForm;
+use App\Form\Admin\ProductForm;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/product')]
 final class ProductController extends AbstractController
 {
-    #[Route(name: 'admin_product_list', methods: ['GET'])]
+    #[Route(name: 'product_list', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
         return $this->render('admin/product/index.html.twig', [
@@ -22,7 +22,7 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $product = new Product();
@@ -36,7 +36,7 @@ final class ProductController extends AbstractController
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('product/new.html.twig', [
+        return $this->render('admin/product/new.html.twig', [
             'product' => $product,
             'form' => $form,
         ]);
