@@ -5,11 +5,13 @@ namespace App\Controller\Admin;
 use App\Entity\Product;
 use App\Form\Admin\ProductForm;
 use App\Repository\ProductRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use function Symfony\Component\Clock\now;
 
 #[Route('/product')]
 final class ProductController extends AbstractController
@@ -30,6 +32,9 @@ final class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $now = new DateTimeImmutable();
+            $product->setAddDate($now);
+
             $entityManager->persist($product);
             $entityManager->flush();
 
@@ -61,7 +66,6 @@ final class ProductController extends AbstractController
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
-        dd(123);
         return $this->render('product/edit.html.twig', [
             'product' => $product,
             'form' => $form,

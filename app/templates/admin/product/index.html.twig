@@ -1,48 +1,47 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block bread %}
-    
+        → {{ 'products'|trans(domain='admin.products')}}
 {% endblock %}
-
+{% block title %}Product list{% endblock %}
 
 {% block body %}
-    <div class="">
-        <h1>Product index</h1>
-        <div class="grid">
-            <div>
-                <div>
-                    <div class="bg-red-500">Id</div>
-                    <div>Name</div>
-                    <div>Price</div>
-                    <div>Add_date</div>
-                    <div>Last_update</div>
-                    <div>Description</div>
-                    <div>Symbol</div>
-                    <div>actions</div>
-                </div>
-            </div>
-            <div>
-            {% for product in products %}
-                <div>
-                    <div>{{ product.id }}</div>
-                    <div>{{ product.name }}</div>
-                    <div>{{ product.price }}</div>
-                    <div>{{ product.addDate ? product.addDate|date('Y-m-d H:i:s') : '' }}</div>
-                    <div>{{ product.lastUpdate ? product.lastUpdate|date('Y-m-d H:i:s') : '' }}</div>
-                    <div>{{ product.description }}</div>
-                    <div>{{ product.symbol }}</div>
-                    <div>
-                        <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
-                        <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
-                    </div>
-                </div>
-            {% else %}
-                <div>
-                    <div >no records found</div>
-                </div>
-            {% endfor %}
-            </div>
-        </div>
-        <a href="{{ path('admin_product_new') }}">Create new</a>
+<div class="overflow-x-auto max-w-[1440px] flex flex-col">
+    <div class="mb-4 self-end">
+        <a href="{{ path('admin_product_new') }}" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+            {{ 'add'|trans(domain='admin.products') }}
+        </a>
     </div>
+    <table class="min-w-full divide-y divide-gray-200 bg-white dark:bg-gray-800">
+        <thead class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
+            <tr>
+                <th class="px-4 py-2 text-left">{{ 'labels.name'|trans(domain='admin.products') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.price'|trans(domain='admin.products') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.add_date'|trans(domain='admin.products') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.desc'|trans(domain='admin.products') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.symbol'|trans(domain='admin.products') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.options'|trans(domain='admin.products') }}</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-300 dark:divide-gray-600 text-gray-800 dark:text-gray-100">
+            {% for product in products %}
+                <tr>
+                    <td class="px-4 py-2">{{ product.name }}</td>
+                    <td class="px-4 py-2">{{ product.price }}</td>
+                    <td class="px-4 py-2">{{ product.addDate ? product.addDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td class="px-4 py-2">{{ product.description }}</td>
+                    <td class="px-4 py-2">{{ product.symbol }}</td>
+                    <td class="px-4 py-2">
+                        <a href="{{ path('app_product_show', {'id': product.id}) }}" class="text-blue-600 hover:underline">show</a>
+                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="ml-2 text-blue-600 hover:underline">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="px-4 py-2 text-center text-gray-500">{{ 'no_records_found'|trans(domain='admin.products') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

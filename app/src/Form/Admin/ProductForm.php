@@ -6,6 +6,8 @@ use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductForm extends AbstractType
 {
@@ -13,12 +15,10 @@ class ProductForm extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('price')
-            ->add('add_date', null, [
-                'widget' => 'single_text',
+            ->add('price', MoneyType::class, [
+                'divisor' => 100
             ])
-            ->add('last_update')
-            ->add('description')
+            ->add('description', TextareaType::class, [])
             ->add('symbol')
         ;
     }

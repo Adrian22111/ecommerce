@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -14,9 +15,17 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "value_not_blank")]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: "min_length",
+        maxMessage: 'max_length',
+    )]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "value_not_blank")]
     private ?float $price = null;
 
     #[ORM\Column]
@@ -26,9 +35,11 @@ class Product
     private ?\DateTime $last_update = null;
 
     #[ORM\Column(length: 2000, nullable: true)]
+    #[Assert\NotBlank(message: "value_not_blank")]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "value_not_blank")]
     private ?string $symbol = null;
 
     public function getId(): ?int

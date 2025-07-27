@@ -1,4 +1,25 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div>
+        {{ form_label(form.name, 'labels.name'|trans(domain='admin.products'), {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+        {{ form_widget(form.name, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
+        {{ form_errors(form.name) }}
+    </div>
+    <div>
+        {{ form_label(form.symbol, 'labels.symbol'|trans(domain='admin.products'), {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+        {{ form_widget(form.symbol, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
+        {{ form_errors(form.symbol) }}
+    </div>
+    <div>
+        {{ form_label(form.price, 'labels.price'|trans(domain='admin.products'), {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+        {{ form_widget(form.price, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
+        {{ form_errors(form.price) }}
+    </div>
+    <div>
+        {{ form_label(form.description, 'labels.desc'|trans(domain='admin.products'), {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+        {{ form_widget(form.description, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
+        {{ form_errors(form.description) }}
+    </div>
+    <div>
+        <button type="submit" class="block w-full shadow-sm border-transparent bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white rounded-md border p-2 mt-4 mb-2 hover:cursor-pointer">Save!</button>
+    </div>
+{{ form_end(form, {'render_rest': false}) }}
