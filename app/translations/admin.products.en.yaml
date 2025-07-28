@@ -1,5 +1,7 @@
 products: "Products"
-add: "Add product"
+add: "add product"
+new: "New"
+no_records_found: "No records found"
 
 labels:
     name: "Name"

@@ -1,6 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block bread %}
+    ⭢ {{'products'|trans(domain='admin.products')}}
         → {{ 'products'|trans(domain='admin.products')}}
 {% endblock %}
 {% block title %}Product list{% endblock %}
@@ -37,6 +38,9 @@
                     </td>
                 </tr>
             {% else %}
+                <tr>
+                    <td colspan="6" class="px-4 py-2 text-center text-gray-500">{{ 'no_records_found'|trans(domain='admin.products') }}</td>
+                </tr>
                 <tr>
                     <td colspan="6" class="px-4 py-2 text-center text-gray-500">{{ 'no_records_found'|trans(domain='admin.products') }}</td>
                 </tr>
