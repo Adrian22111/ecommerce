@@ -1,12 +1,14 @@
-products: "Products"
+products: "products"
 add: "add product"
-new: "New"
-no_records_found: "No records found"
+new: "new"
+no_records_found: "no records found"
 
 labels:
-    name: "Name"
-    price: "Price"
-    add_date: "Add date"
-    desc: "Description"
-    symbol: "Symbol"
-    options: "Options"
+    name: "name"
+    price: "price"
+    add_date: "add date"
+    desc: "description"
+    symbol: "symbol"
+    options: "options"
+
+    

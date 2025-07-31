@@ -26,7 +26,12 @@ class Product
 
     #[ORM\Column]
     #[Assert\NotBlank(message: "value_not_blank")]
-    private ?float $price = null;
+    #[Assert\Range(
+        min: 1,
+        max: 1000000,
+        notInRangeMessage: 'price_not_in_range',
+    )]
+    private ?int $price = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $add_date = null;
@@ -36,10 +41,22 @@ class Product
 
     #[ORM\Column(length: 2000, nullable: true)]
     #[Assert\NotBlank(message: "value_not_blank")]
+    #[Assert\Length(
+        min: 1,
+        max: 2000,
+        minMessage: "min_length",
+        maxMessage: 'max_length',
+    )]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "value_not_blank")]
+    #[Assert\Length(
+        min: 1,
+        max: 255,
+        minMessage: "min_length",
+        maxMessage: 'max_length',
+    )]
     private ?string $symbol = null;
 
     public function getId(): ?int

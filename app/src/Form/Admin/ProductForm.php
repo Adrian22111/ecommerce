@@ -27,6 +27,7 @@ class ProductForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Product::class,
+            
         ]);
     }
 }
