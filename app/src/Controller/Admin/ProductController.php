@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use DateTime;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/product')]
 final class ProductController extends AbstractController
@@ -58,16 +59,28 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
-    {
+    public function edit(
+        Request $request, 
+        Product $product, 
+        EntityManagerInterface $entityManager, 
+        TranslatorInterface $translator
+    ): Response {
         $form = $this->createForm(ProductForm::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $product->setLastUpdate(new DateTime());
+            $entityManager->persist($product);
             $entityManager->flush();
 
-            return $this->redirectToRoute('product_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'update_successfull');
+
+            return $this->redirectToRoute('admin_product_edit', [
+                'id' => $product->getId()
+            ], Response::HTTP_SEE_OTHER);
         }
+
         return $this->render('admin/product/edit.html.twig', [
             'product' => $product,
             'form' => $form,

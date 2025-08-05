@@ -2,7 +2,6 @@
 
 {% block bread %}
     ⭢ {{'products'|trans(domain='admin.products')}}
-        → {{ 'products'|trans(domain='admin.products')}}
 {% endblock %}
 {% block title %}Product list{% endblock %}
 
@@ -33,8 +32,8 @@
                     <td class="px-4 py-2">{{ product.description }}</td>
                     <td class="px-4 py-2">{{ product.symbol }}</td>
                     <td class="px-4 py-2">
-                        <a href="{{ path('app_product_show', {'id': product.id}) }}" class="text-blue-600 hover:underline">show</a>
-                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="ml-2 text-blue-600 hover:underline">edit</a>
+                        <a href="{{ path('admin_product_show', {'id': product.id}) }}" class="text-blue-600 hover:underline">show</a>
+                        <a href="{{ path('admin_product_edit', {'id': product.id}) }}" class="ml-2 text-blue-600 hover:underline">edit</a>
                     </td>
                 </tr>
             {% else %}

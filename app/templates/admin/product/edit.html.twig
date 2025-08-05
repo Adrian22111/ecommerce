@@ -1,10 +1,12 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block title %}Edit Product{% endblock %}
+{% block bread %}
+    → <a href="{{ path('admin_product_list') }}">{{ 'products'|trans(domain='admin.products')}}</a>  
+    → {{ 'edit'|trans(domain='admin.products') }}
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Product</h1>
-
     {{ include('admin/product/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('admin_product_list') }}">back to list</a>
