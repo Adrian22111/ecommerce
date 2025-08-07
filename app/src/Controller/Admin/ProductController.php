@@ -26,13 +26,19 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/new', name: 'product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        ProductRepository $productRepository
+    ): Response {
         $product = new Product();
         $form = $this->createForm(ProductForm::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($productRepository->isSymbolTaken($form->get('symbol')->getData())) {
+                 $this->addFlash('error', 'product_symbol_taken');
+            }
             $product->setAddDate(new DateTimeImmutable());
             $product->setLastUpdate(new DateTime());
 
@@ -62,20 +68,31 @@ final class ProductController extends AbstractController
     public function edit(
         Request $request, 
         Product $product, 
-        EntityManagerInterface $entityManager, 
-        TranslatorInterface $translator
+        EntityManagerInterface $entityManager,
+        ProductRepository $productRepository 
     ): Response {
+
+        $dbProduct = clone $product; 
         $form = $this->createForm(ProductForm::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $newProductSymbol = $form->get('symbol')->getData();
+            $oldProductSymbol = $dbProduct->getSymbol();
+
+            if ($oldProductSymbol != $newProductSymbol && $productRepository->isSymbolTaken($newProductSymbol)) {
+                 $this->addFlash('error', 'product_symbol_taken');
+                return $this->redirectToRoute('admin_product_edit', [
+                    'id' => $product->getId()
+                ], Response::HTTP_SEE_OTHER);
+            }
 
             $product->setLastUpdate(new DateTime());
             $entityManager->persist($product);
             $entityManager->flush();
 
             $this->addFlash('success', 'update_successfull');
-
             return $this->redirectToRoute('admin_product_edit', [
                 'id' => $product->getId()
             ], Response::HTTP_SEE_OTHER);
