@@ -27,8 +27,8 @@ final class ProductController extends AbstractController
 
     #[Route('/new', name: 'product_new', methods: ['GET', 'POST'])]
     public function new(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
+        Request $request,
+        EntityManagerInterface $entityManager,
         ProductRepository $productRepository
     ): Response {
         $product = new Product();
@@ -37,7 +37,7 @@ final class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($productRepository->isSymbolTaken($form->get('symbol')->getData())) {
-                 $this->addFlash('error', 'product_symbol_taken');
+                $this->addFlash('error', 'product_symbol_taken');
             }
             $product->setAddDate(new DateTimeImmutable());
             $product->setLastUpdate(new DateTime());
@@ -56,23 +56,15 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'product_show', methods: ['GET'])]
-    public function show(Product $product): Response
-    {
-        return $this->render('product/show.html.twig', [
-            'product' => $product,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'product_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Request $request, 
-        Product $product, 
+        Request $request,
+        Product $product,
         EntityManagerInterface $entityManager,
-        ProductRepository $productRepository 
+        ProductRepository $productRepository
     ): Response {
 
-        $dbProduct = clone $product; 
+        $dbProduct = clone $product;
         $form = $this->createForm(ProductForm::class, $product);
         $form->handleRequest($request);
 
@@ -82,10 +74,11 @@ final class ProductController extends AbstractController
             $oldProductSymbol = $dbProduct->getSymbol();
 
             if ($oldProductSymbol != $newProductSymbol && $productRepository->isSymbolTaken($newProductSymbol)) {
-                 $this->addFlash('error', 'product_symbol_taken');
-                return $this->redirectToRoute('admin_product_edit', [
-                    'id' => $product->getId()
-                ], Response::HTTP_SEE_OTHER);
+                $this->addFlash('error', 'product_symbol_taken');
+                return $this->render('admin/product/edit.html.twig', [
+                    'product' => $product,
+                    'form' => $form,
+                ]);
             }
 
             $product->setLastUpdate(new DateTime());
