@@ -7,9 +7,17 @@
 {% endblock %}
 
 {% block body %}
-    {{ include('admin/product/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('admin_product_list') }}">back to list</a>
-
-    {{ include('admin/product/_delete_form.html.twig') }}
+    <div class="max-w-xl">
+        {{ include('admin/product/_form.html.twig', {'button_label': 'update'|trans(domain='admin.products')}) }}
+        <a 
+            class="block w-full shadow-sm border-transparent rounded-md border p-2 
+                   mt-4 mb-2 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 
+                   text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100 
+                   text-center capitalize" 
+            href="{{ path('admin_product_list') }}"
+        >
+            {{ 'back_to_list'|trans(domain='admin.products')}}
+        </a>
+        {{ include('admin/product/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

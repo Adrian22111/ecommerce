@@ -41,14 +41,4 @@ class ProductRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function isSymbolTaken(string $symbol): bool
-    {
-        return $this->createQueryBuilder('p')
-            ->select("COUNT('p.id')")
-            ->where('p.symbol = :symbol')
-            ->setParameter('symbol', $symbol)
-            ->getQuery()
-            ->getScalarResult() > 0
-        ;
-    }
 }

@@ -2,6 +2,10 @@ products: "products"
 add: "add product"
 new: "new"
 no_records_found: "no records found"
+new_product: "New Product"
+back_to_list: "back to list"
+save: "save"
+update: "update"
 
 labels:
     name: "name"
@@ -10,5 +14,3 @@ labels:
     desc: "description"
     symbol: "symbol"
     options: "options"
-
-    

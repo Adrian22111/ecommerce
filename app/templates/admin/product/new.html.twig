@@ -1,6 +1,6 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}New Product{% endblock %}
+{% block title %}{{ 'new_product'|trans(domain='admin.products') }}{% endblock %}
 {% block bread %}
    → <a href="{{ path('admin_product_list') }}">{{ 'products'|trans(domain='admin.products')}}</a>  
    → {{ 'add'|trans(domain='admin.products') }}
@@ -8,7 +8,15 @@
 
 {% block body %}
     <div class="max-w-xl">
-        {{ include('admin/product/_form.html.twig') }}
+        {{ include('admin/product/_form.html.twig', {'button_label': 'save'|trans(domain='admin.products')}) }}
+        <a 
+            class="block w-full shadow-sm border-transparent rounded-md border p-2 
+                   mt-4 mb-2 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 
+                   text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100 
+                   text-center capitalize"  
+            href="{{ path('admin_product_list') }}"
+        >
+            {{ 'back_to_list'|trans(domain='admin.products')}}
+        </a>
     </div>
-    <a href="{{ path('admin_product_list') }}">back to list</a>
 {% endblock %}

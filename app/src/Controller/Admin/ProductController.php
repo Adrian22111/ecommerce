@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use DateTime;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/product')]
 final class ProductController extends AbstractController
@@ -36,9 +35,6 @@ final class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($productRepository->isSymbolTaken($form->get('symbol')->getData())) {
-                $this->addFlash('error', 'product_symbol_taken');
-            }
             $product->setAddDate(new DateTimeImmutable());
             $product->setLastUpdate(new DateTime());
 
@@ -61,26 +57,11 @@ final class ProductController extends AbstractController
         Request $request,
         Product $product,
         EntityManagerInterface $entityManager,
-        ProductRepository $productRepository
     ): Response {
-
-        $dbProduct = clone $product;
         $form = $this->createForm(ProductForm::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $newProductSymbol = $form->get('symbol')->getData();
-            $oldProductSymbol = $dbProduct->getSymbol();
-
-            if ($oldProductSymbol != $newProductSymbol && $productRepository->isSymbolTaken($newProductSymbol)) {
-                $this->addFlash('error', 'product_symbol_taken');
-                return $this->render('admin/product/edit.html.twig', [
-                    'product' => $product,
-                    'form' => $form,
-                ]);
-            }
-
             $product->setLastUpdate(new DateTime());
             $entityManager->persist($product);
             $entityManager->flush();
@@ -105,6 +86,6 @@ final class ProductController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('product_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_product_list', [], Response::HTTP_SEE_OTHER);
     }
 }

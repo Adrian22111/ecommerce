@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[UniqueEntity(fields: 'symbol', message: 'symbol_used')]
 class Product
 {
     #[ORM\Id]
@@ -49,7 +51,7 @@ class Product
     )]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank(message: "value_not_blank")]
     #[Assert\Length(
         min: 1,
@@ -57,6 +59,7 @@ class Product
         minMessage: "min_length",
         maxMessage: 'max_length',
     )]
+    #
     private ?string $symbol = null;
 
     public function getId(): ?int
