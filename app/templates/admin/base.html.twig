@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark">
+<html class="">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -10,6 +10,7 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <script src={{ asset('js/modal.js') }}></script>
         {% endblock %}
     </head>
     <body>
@@ -61,5 +62,6 @@
                 </div>
             </main>
         </div>
+        {{ include('admin/shared/_modal.html.twig') }}
     </body>
 </html>

@@ -1,0 +1,23 @@
+<dialog id = "dialog" 
+        class = "m-auto rounded-sm bg-gray-300 py-8 px-4 opacity-0 transition-all transition-discrete duration-300 ease-in-out text-gray-800
+                dark:backdrop:bg-gray-800 
+                open:opacity-100 open:backdrop:bg-gray-200 
+                starting:open:opacity-0 starting:open:backdrop:bg-transparent starting:open:backdrop:backdrop-opacity-0
+                backdrop:bg-transparent backdrop:transition-all backdrop:duration-300 open:backdrop:backdrop-opacity-25
+                "
+>
+    <h2 id="modal-title" class = "max-w-[80ch]" ></h2>
+    <p id="modal-content" class = "max-w-[80ch]"></p>
+    <div id="buttons-wrapper" class="">
+        <div id="modal-buttons" class="contents"></div>
+        <button id="modal-close"
+                class = "block w-full shadow-sm border-transparent rounded-md border p-2 
+                        mt-4 mb-2 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 
+                        text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100 
+                        text-center capitalize"
+        >
+            Close
+        </button>
+    </div>
+
+</dialog>
