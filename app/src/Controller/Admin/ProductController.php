@@ -28,7 +28,6 @@ final class ProductController extends AbstractController
     public function new(
         Request $request,
         EntityManagerInterface $entityManager,
-        ProductRepository $productRepository
     ): Response {
         $product = new Product();
         $form = $this->createForm(ProductForm::class, $product);
@@ -40,6 +39,7 @@ final class ProductController extends AbstractController
 
             $entityManager->persist($product);
             $entityManager->flush();
+            $this->addFlash('success', 'save_successfull');
 
             return $this->redirectToRoute('admin_product_edit', [
                 'id' => $product->getId()
@@ -84,6 +84,7 @@ final class ProductController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($product);
             $entityManager->flush();
+            $this->addFlash('success', 'delete_successfull');
         }
 
         return $this->redirectToRoute('admin_product_list', [], Response::HTTP_SEE_OTHER);

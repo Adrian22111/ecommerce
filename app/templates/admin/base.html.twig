@@ -10,7 +10,7 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-            <script src={{ asset('js/modal.js') }}></script>
+            <script type="module" src={{ asset('js/main.js') }}></script>
         {% endblock %}
     </head>
     <body>

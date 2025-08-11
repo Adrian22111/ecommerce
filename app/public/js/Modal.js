@@ -1,13 +1,41 @@
 class Modal {
     constructor(dialogId) {
-        this.dialog = document.getElementById(dialogId);
+        this.dialogId = dialogId;
+        this._bindCloseHandler();
+    }
+
+    // Odświeżenie referencji do elementów modala
+    _refreshElements() {
+        this.dialog = document.getElementById(this.dialogId);
+        if (!this.dialog) {
+            console.error(`Modal with id "${this.dialogId}" not found in DOM.`);
+            return false;
+        }
+
         this.titleElem = this.dialog.querySelector("#modal-title");
         this.contentElem = this.dialog.querySelector("#modal-content");
         this.buttonsElem = this.dialog.querySelector("#modal-buttons");
         this.closeBtn = this.dialog.querySelector("#modal-close");
+        return true;
+    }
+
+    // zamykanie modala 
+    _bindCloseHandler() {
+        document.addEventListener("click", (e) => {
+            if (e.target && e.target.id === "modal-close") {
+                this.close();
+            }
+        });
     }
 
     open({ title = "", content = "", buttons = [] }) {
+        if (!this._refreshElements()) return;
+
+        // Jeśli modal jest otwarty, zamknij go przed ponownym użyciem
+        if (this.dialog.hasAttribute("open")) {
+            this.dialog.close();
+        }
+
         this.titleElem.textContent = title;
 
         if (typeof content === "string") {
@@ -29,19 +57,15 @@ class Modal {
             this.buttonsElem.appendChild(button);
         });
 
-        this.closeBtn.addEventListener("click", () => {
-            this.dialog.close();
-        });
-
+        // Pokaż modal
         this.dialog.showModal();
     }
 
     close() {
-        this.dialog.close();
+        if (this._refreshElements() && this.dialog.hasAttribute("open")) {
+            this.dialog.close();
+        }
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const modal = new Modal("dialog");
-    window.modal = modal;
-});
+export default Modal; 

@@ -5,7 +5,7 @@
             title: 'Delete product',
             content: 'Are you sure you want to delete: {{ product.name }}?',
             buttons: [
-                { text: 'Delete', onClick: () => { document.getElementById('delete-form-{{ product.id }}').submit(); modal.close(); } }
+                { text: 'Delete', onClick: () => { modal.close(); document.getElementById('delete-form-{{ product.id }}').submit();  } }
             ]
         })
     ">Delete</button>

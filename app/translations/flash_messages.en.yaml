@@ -1,2 +1,4 @@
-update_successfull: Update completed successfully
-product_symbol_taken: Product symbol taken
+save_successfull: "New element added successfully"
+update_successfull: "Update completed successfully"
+delete_successfull: "Delete completed successfully"
+product_symbol_taken: "Product symbol taken"
