@@ -6,6 +6,10 @@ new_product: "New Product"
 back_to_list: "back to list"
 save: "save"
 update: "update"
+delete: "delete"
+delete_product: "delete product"
+confirm_product_deletion: 'Are you sure you want to delete: %product_name%?'
+
 
 labels:
     name: "name"
@@ -14,3 +18,4 @@ labels:
     desc: "description"
     symbol: "symbol"
     options: "options"
+

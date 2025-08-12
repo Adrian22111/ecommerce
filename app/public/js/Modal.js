@@ -31,7 +31,6 @@ class Modal {
     open({ title = "", content = "", buttons = [] }) {
         if (!this._refreshElements()) return;
 
-        // Jeśli modal jest otwarty, zamknij go przed ponownym użyciem
         if (this.dialog.hasAttribute("open")) {
             this.dialog.close();
         }
@@ -50,14 +49,15 @@ class Modal {
             const button = document.createElement("button");
             button.textContent = btn.text || "OK";
             button.className =
-                "block w-full shadow-sm border-transparent rounded-md border p-2 mt-4 mb-2 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-100 text-center capitalize";
+                `block w-full shadow-sm border-transparent rounded-md border p-2 mt-4 mb-2 
+                 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 
+                 dark:hover:bg-gray-600 dark:text-gray-100 text-center capitalize ${btn.class}`;
             button.addEventListener("click", () => {
                 if (btn.onClick) btn.onClick();
             });
             this.buttonsElem.appendChild(button);
         });
 
-        // Pokaż modal
         this.dialog.showModal();
     }
 
