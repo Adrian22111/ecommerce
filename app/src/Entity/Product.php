@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -61,6 +63,17 @@ class Product
     )]
     #
     private ?string $symbol = null;
+
+    /**
+     * @var Collection<int, ProductCategory>
+     */
+    #[ORM\ManyToMany(targetEntity: ProductCategory::class, inversedBy: 'products')]
+    private Collection $categories;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -135,6 +148,30 @@ class Product
     public function setSymbol(string $symbol): static
     {
         $this->symbol = $symbol;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductCategory>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(ProductCategory $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(ProductCategory $category): static
+    {
+        $this->categories->removeElement($category);
 
         return $this;
     }
