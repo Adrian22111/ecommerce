@@ -1,1 +1,11 @@
+product_category_list: "Product category list"
+product_categories: "product categories"
 new_product_category: "New product category"
+add: "add product category"
+
+
+labels:
+    name: "category name"
+    add_date: "add date"
+    options: "options"
+
