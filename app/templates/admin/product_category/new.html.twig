@@ -1,0 +1,9 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ 'new_product_category'|trans(domain='admin.product_categories') }}{% endblock %}
+
+
+{% block body %}
+    {{ include('admin/product_category/_form.html.twig') }}
+    <a href="{{ path('admin_product_category_list') }}">back to list</a>
+{% endblock %}
