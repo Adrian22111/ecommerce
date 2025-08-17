@@ -25,10 +25,15 @@
             </div>
         </nav>
         <div class="flex bg-gray-200 dark:bg-gray-800">
-            <aside class="w-64 dark:bg-gray-800 bg-gray-200 sticky top-0 h-screen p-4">
+            <aside class="w-64 dark:bg-gray-800 bg-gray-200 sticky top-0 h-screen px-4">
                 <ul class="font-medium text-base text-gray-800 dark:text-gray-200">
                     <li class="">
-                        <a href="{{ path('admin_product_list') }}">{{'products'|trans(domain='admin.product')}}</a>
+                        <a  class="w-full inline-block hover:bg-gray-100 p-2 rounded dark:hover:bg-gray-700"
+                            href="{{ path('admin_product_list') }}">{{'products'|trans(domain='admin.product')}}</a>
+                    </li>
+                    <li class="">
+                        <a  class="w-full inline-block hover:bg-gray-100 p-2 rounded dark:hover:bg-gray-700"
+                            href="{{ path('admin_product_category_list') }}">{{'product_categories'|trans(domain='admin.product_category')}}</a>
                     </li>
                 </ul>
             </aside>
