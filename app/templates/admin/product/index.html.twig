@@ -1,7 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block bread %}
-    ⭢ {{'products'|trans(domain='admin.products')}}
+    ⭢ {{'products'|trans(domain='admin.product')}}
 {% endblock %}
 {% block title %}Product list{% endblock %}
 
@@ -9,18 +9,18 @@
 <div class="overflow-x-auto max-w-[1440px] flex flex-col">
     <div class="mb-4 self-end">
         <a href="{{ path('admin_product_new') }}" class="inline-block px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 capitalize">
-            {{ 'add'|trans(domain='admin.products') }}
+            {{ 'add'|trans(domain='admin.product') }}
         </a>
     </div>
     <table class="min-w-full divide-y divide-gray-200 bg-white dark:bg-gray-800">
         <thead class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
             <tr>
-                <th class="px-4 py-2 text-left">{{ 'labels.name'|trans(domain='admin.products') }}</th>
-                <th class="px-4 py-2 text-left">{{ 'labels.price'|trans(domain='admin.products') }}</th>
-                <th class="px-4 py-2 text-left">{{ 'labels.add_date'|trans(domain='admin.products') }}</th>
-                <th class="px-4 py-2 text-left">{{ 'labels.desc'|trans(domain='admin.products') }}</th>
-                <th class="px-4 py-2 text-left">{{ 'labels.symbol'|trans(domain='admin.products') }}</th>
-                <th class="px-4 py-2 text-left">{{ 'labels.options'|trans(domain='admin.products') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.name'|trans(domain='admin.product') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.price'|trans(domain='admin.product') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.add_date'|trans(domain='admin.product') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.desc'|trans(domain='admin.product') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.symbol'|trans(domain='admin.product') }}</th>
+                <th class="px-4 py-2 text-left">{{ 'labels.options'|trans(domain='admin.product') }}</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-300 dark:divide-gray-600 text-gray-800 dark:text-gray-100">
@@ -37,7 +37,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6" class="px-4 py-2 text-center text-gray-500">{{ 'no_records_found'|trans(domain='admin.products') }}</td>
+                    <td colspan="6" class="px-4 py-2 text-center text-gray-500">{{ 'no_records_found'|trans(domain='admin.product') }}</td>
                 </tr>
             {% endfor %}
         </tbody>
