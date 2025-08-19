@@ -9,6 +9,7 @@ update: "update"
 delete: "delete"
 delete_product: "delete product"
 confirm_product_deletion: 'Are you sure you want to delete: %product_name%?'
+edit: "edit"
 
 
 labels:

@@ -17,7 +17,6 @@
             <tr>
                 <th class="px-4 py-2 text-left">{{ 'labels.name'|trans(domain='admin.product') }}</th>
                 <th class="px-4 py-2 text-left">{{ 'labels.price'|trans(domain='admin.product') }}</th>
-                <th class="px-4 py-2 text-left">{{ 'labels.add_date'|trans(domain='admin.product') }}</th>
                 <th class="px-4 py-2 text-left">{{ 'labels.desc'|trans(domain='admin.product') }}</th>
                 <th class="px-4 py-2 text-left">{{ 'labels.symbol'|trans(domain='admin.product') }}</th>
                 <th class="px-4 py-2 text-left">{{ 'labels.options'|trans(domain='admin.product') }}</th>
@@ -28,11 +27,15 @@
                 <tr>
                     <td class="px-4 py-2">{{ product.name }}</td>
                     <td class="px-4 py-2">{{ product.price }}</td>
-                    <td class="px-4 py-2">{{ product.addDate ? product.addDate|date('Y-m-d H:i:s') : '' }}</td>
                     <td class="px-4 py-2">{{ product.description }}</td>
                     <td class="px-4 py-2">{{ product.symbol }}</td>
                     <td class="px-4 py-2">
-                        <a href="{{ path('admin_product_edit', {'id': product.id}) }}" class="ml-2 text-blue-600 hover:underline">edit</a>
+                        <a 
+                            href="{{ path('admin_product_edit', {'id': product.id}) }}" 
+                            class="ml-2 text-blue-600 hover:underline"
+                        >
+                            {{ 'edit'|trans(domain='admin.product') }}
+                        </a>
                     </td>
                 </tr>
             {% else %}
