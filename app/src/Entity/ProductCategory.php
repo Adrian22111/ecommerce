@@ -21,7 +21,7 @@ class ProductCategory
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?\DateTime $add_date = null;
+    private ?\DateTimeImmutable $add_date = null;
 
     #[ORM\Column]
     private ?\DateTime $last_update = null;
@@ -59,7 +59,7 @@ class ProductCategory
         return $this->add_date;
     }
 
-    public function setAddDate(\DateTime $add_date): static
+    public function setAddDate(\DateTimeImmutable $add_date): static
     {
         $this->add_date = $add_date;
 

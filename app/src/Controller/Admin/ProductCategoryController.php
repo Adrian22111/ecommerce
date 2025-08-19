@@ -2,14 +2,16 @@
 
 namespace App\Controller\Admin;
 
+use DateTime;
+use DateTimeImmutable;
 use App\Entity\ProductCategory;
 use App\Form\Admin\ProductCategoryForm;
-use App\Repository\ProductCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ProductCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/product_category')]
 final class ProductCategoryController extends AbstractController
@@ -30,6 +32,9 @@ final class ProductCategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $productCategory->setAddDate(new DateTimeImmutable());
+            $productCategory->setLastUpdate(new DateTime());
+
             $entityManager->persist($productCategory);
             $entityManager->flush();
 

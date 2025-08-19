@@ -2,7 +2,7 @@ product_category_list: "Product category list"
 product_categories: "product categories"
 new_product_category: "New product category"
 add: "add product category"
-
+back_to_list: "back to list"
 
 labels:
     name: "category name"

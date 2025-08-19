@@ -16,7 +16,6 @@
         <thead class="bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white">
             <tr>
                 <th class="px-4 py-2 text-left">{{ 'labels.name'|trans(domain='admin.product_category') }}</th>
-                <th class="px-4 py-2 text-left">{{ 'labels.add_date'|trans(domain='admin.product_category') }}</th>
                 <th class="px-4 py-2 text-left">{{ 'labels.options'|trans(domain='admin.product_category') }}</th>
             </tr>
         </thead>
@@ -24,14 +23,18 @@
             {% for product_category in product_categories %}
                 <tr>
                     <td class="px-4 py-2">{{ product_category.name }}</td>
-                    <td class="px-4 py-2">{{ product.addDate ? product.addDate|date('Y-m-d H:i:s') : '' }}</td>
                     <td class="px-4 py-2">
-                        <a href="{{ path('admin_product_edit', {'id': product.id}) }}" class="ml-2 text-blue-600 hover:underline">edit</a>
+                        <a 
+                            href="{{ path('admin_product_category_edit', {'id': product_category.id}) }}" 
+                            class="ml-2 text-blue-600 hover:underline"
+                        >
+                            {{ 'edit'|trans(domain='admin.product_category') }}
+                        </a>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="3" class="px-4 py-2 text-center text-gray-500">{{ 'no_records_found'|trans(domain='admin.product') }}</td>
+                    <td colspan="3" class="px-4 py-2 text-center text-gray-500">{{ 'no_records_found'|trans(domain='admin.product_category') }}</td>
                 </tr>
             {% endfor %}
         </tbody>
