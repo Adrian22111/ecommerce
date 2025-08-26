@@ -1,4 +1,24 @@
 <form method="post" action="{{ path('admin_product_category_delete', {'id': product_category.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product_category.id) }}">
-    <button class="btn">Delete</button>
+    <button type="button" 
+        class = "block w-full shadow-sm border-transparent 
+                bg-red-600 hover:bg-red-700 
+                dark:bg-red-500 dark:hover:bg-red-400 
+                text-white rounded-md border p-2 mt-4 mb-2 
+                hover:cursor-pointer capitalize"
+        onclick="
+            modal.open({
+                title: '{{ 'delete_product_categoty'|trans(domain='admin.product_category')}}',
+                content: '{{ 'confirm_product_category_deletion'|trans({'%product_category_name%': product_category.name}, 'admin.product_category')}}',
+                buttons: [
+                    { 
+                        text: '{{ 'delete'|trans(domain='admin.product_category')}}',
+                        class: 'bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-400 text-white',
+                        onClick: () => { modal.close(); document.getElementById('delete-form-{{ product_category.id }}').submit();  } 
+                    }
+                ]
+            })
+        ">
+        {{ 'delete'|trans(domain='admin.product_category') }}
+    </button>
 </form>

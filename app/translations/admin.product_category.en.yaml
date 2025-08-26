@@ -1,11 +1,14 @@
 product_category_list: "Product category list"
 product_categories: "product categories"
 new_product_category: "New product category"
+edit_product_category: "Edit product category"
 add: "add product category"
+edit: "edit product category"
 back_to_list: "back to list"
+delete_product_categoty: "delete product category"
+confirm_product_category_deletion: "Are you sure you want to delete: %product_category_name%?"
 
 labels:
     name: "category name"
     add_date: "add date"
     options: "options"
-
