@@ -1,9 +1,10 @@
 {% extends 'admin/base.html.twig' %}
+{% trans_default_domain 'admin.product_category' %}
 
-{% block title %}{{ 'new_product_category'|trans(domain='admin.product_category') }}{% endblock %}
+{% block title %}{{ 'new_product_category'|trans }}{% endblock %}
 {% block bread %}
-   → <a href="{{ path('admin_product_category_list') }}">{{ 'products'|trans(domain='admin.product_category')}}</a>  
-   → {{ 'add'|trans(domain='admin.product_category') }}
+   → <a href="{{ path('admin_product_category_list') }}">{{ 'products'|trans}}</a>  
+   → {{ 'add'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -16,7 +17,7 @@
                     text-center capitalize" 
             href="{{ path('admin_product_category_list') }}"
         >
-            {{ 'back_to_list'|trans(domain='admin.product_category')}}
+            {{ 'back_to_list'|trans}}
         </a>
     </div>
 {% endblock %}

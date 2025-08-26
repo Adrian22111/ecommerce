@@ -8,9 +8,9 @@ save: "save"
 update: "update"
 delete: "delete"
 delete_product: "delete product"
-confirm_product_deletion: 'Are you sure you want to delete: %product_name%?'
+confirm_product_deletion: "Are you sure you want to delete: %product_name%?"
 edit: "edit"
-
+edit_product: "Edit product"
 
 labels:
     name: "name"
@@ -19,4 +19,3 @@ labels:
     desc: "description"
     symbol: "symbol"
     options: "options"
-

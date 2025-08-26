@@ -1,21 +1,23 @@
+{% trans_default_domain 'admin.product' %}
+
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
     <div>
-        {{ form_label(form.name, 'labels.name'|trans(domain='admin.product'), {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+        {{ form_label(form.name, 'labels.name'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
         {{ form_widget(form.name, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
         {{ form_errors(form.name) }}
     </div>
     <div>
-        {{ form_label(form.symbol, 'labels.symbol'|trans(domain='admin.product'), {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+        {{ form_label(form.symbol, 'labels.symbol'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
         {{ form_widget(form.symbol, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
         {{ form_errors(form.symbol) }}
     </div>
     <div>
-        {{ form_label(form.price, 'labels.price'|trans(domain='admin.product'), {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+        {{ form_label(form.price, 'labels.price'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
         {{ form_widget(form.price, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
         {{ form_errors(form.price) }}
     </div>
     <div>
-        {{ form_label(form.description, 'labels.desc'|trans(domain='admin.product'), {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+        {{ form_label(form.description, 'labels.desc'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
         {{ form_widget(form.description, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
         {{ form_errors(form.description) }}
     </div>

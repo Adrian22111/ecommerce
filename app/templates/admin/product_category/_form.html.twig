@@ -1,6 +1,8 @@
+{% trans_default_domain 'admin.product_category' %}
+
 {{ form_start(form) }}
     <div>
-        {{ form_label(form.name, 'labels.name'|trans(domain='admin.product_category'), {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+        {{ form_label(form.name, 'labels.name'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
         {{ form_widget(form.name, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
         {{ form_errors(form.name) }}
     </div>
