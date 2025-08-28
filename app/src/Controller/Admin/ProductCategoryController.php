@@ -37,8 +37,11 @@ final class ProductCategoryController extends AbstractController
 
             $entityManager->persist($productCategory);
             $entityManager->flush();
+            $this->addFlash('success', 'save_successfull');
 
-            return $this->redirectToRoute('admin_product_category_list', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_product_category_edit', [
+                'id' => $productCategory->getId()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/product_category/new.html.twig', [
@@ -54,9 +57,16 @@ final class ProductCategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $productCategory->setLastUpdate(new DateTime());
+            $entityManager->persist($productCategory);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_product_category_list', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'save_successfull');
+
+            return $this->redirectToRoute('admin_product_category_edit', [
+                'id' => $productCategory->getId(),
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/product_category/edit.html.twig', [
@@ -68,7 +78,7 @@ final class ProductCategoryController extends AbstractController
     #[Route('/{id}', name: 'product_category_delete', methods: ['POST'])]
     public function delete(Request $request, ProductCategory $productCategory, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$productCategory->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $productCategory->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($productCategory);
             $entityManager->flush();
         }

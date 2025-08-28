@@ -3,7 +3,10 @@
 namespace App\Form\Admin;
 
 use App\Entity\Product;
+use App\Entity\ProductCategory;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -20,6 +23,11 @@ class ProductForm extends AbstractType
             ])
             ->add('description', TextareaType::class, [])
             ->add('symbol')
+            ->add('categories', EntityType::class, [
+                'class' => ProductCategory::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+            ])
         ;
     }
 
@@ -27,7 +35,7 @@ class ProductForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Product::class,
-            
+
         ]);
     }
 }
