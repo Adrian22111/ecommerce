@@ -27,6 +27,7 @@ class ProductForm extends AbstractType
                 'class' => ProductCategory::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'autocomplete' => true
             ])
         ;
     }

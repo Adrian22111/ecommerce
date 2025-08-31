@@ -1,0 +1,24 @@
+.ts-control {
+    @apply bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-transparent rounded-md shadow-sm;
+    @apply focus-within:ring-2 focus-within:ring-indigo-500 focus-within:outline-none;
+}
+
+.ts-dropdown {
+    @apply mt-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50;
+    @apply transition-all duration-150 ease-out;
+}
+
+.ts-dropdown-content {
+    @apply max-h-60 overflow-auto;
+}
+
+
+
+.ts-dropdown-content::-webkit-scrollbar {
+    @apply w-2 h-2;
+}
+
+.ts-dropdown-content::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-700 rounded;
+}
+
