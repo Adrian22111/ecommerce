@@ -61,13 +61,13 @@ class Product
         minMessage: "min_length",
         maxMessage: 'max_length',
     )]
-    #
     private ?string $symbol = null;
 
     /**
      * @var Collection<int, ProductCategory>
      */
     #[ORM\ManyToMany(targetEntity: ProductCategory::class, inversedBy: 'products')]
+    #[Assert\Count(min: 1, minMessage: "select_min")]
     private Collection $categories;
 
     public function __construct()
