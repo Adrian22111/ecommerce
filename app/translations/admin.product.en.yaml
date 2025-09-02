@@ -19,3 +19,4 @@ labels:
     desc: "description"
     symbol: "symbol"
     options: "options"
+    categories: "categories"
