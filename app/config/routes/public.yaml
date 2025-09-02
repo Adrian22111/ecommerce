@@ -1,4 +1,0 @@
-public:
-    resource: ../../src/Controller/Public/
-    type: attribute
-    prefix: /

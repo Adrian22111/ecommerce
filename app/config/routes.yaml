@@ -8,5 +8,5 @@ admin_routes:
     type: yaml
 
 public_routes:
-    resource: routes/public.yaml
+    resource: routes/client.yaml
     type: yaml
