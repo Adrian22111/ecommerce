@@ -8,9 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[UniqueEntity(fields: 'symbol', message: 'symbol_used')]
+#[Vich\Uploadable]
 class Product
 {
     #[ORM\Id]
@@ -70,9 +72,16 @@ class Product
     #[Assert\Count(min: 1, minMessage: "select_min")]
     private Collection $categories;
 
+    /**
+     * @var Collection<int, ProductImage>
+     */
+    #[ORM\OneToMany(targetEntity: ProductImage::class, mappedBy: 'productId', orphanRemoval: true)]
+    private Collection $productImages;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->productImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,6 +181,36 @@ class Product
     public function removeCategory(ProductCategory $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductImage>
+     */
+    public function getProductImages(): Collection
+    {
+        return $this->productImages;
+    }
+
+    public function addProductImage(ProductImage $productImage): static
+    {
+        if (!$this->productImages->contains($productImage)) {
+            $this->productImages->add($productImage);
+            $productImage->setProductId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductImage(ProductImage $productImage): static
+    {
+        if ($this->productImages->removeElement($productImage)) {
+            // set the owning side to null (unless already changed)
+            if ($productImage->getProductId() === $this) {
+                $productImage->setProductId(null);
+            }
+        }
 
         return $this;
     }
