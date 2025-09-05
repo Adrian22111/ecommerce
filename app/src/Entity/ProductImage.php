@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductImageRepository;
+use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ProductImageRepository::class)]
+#[Vich\Uploadable]
 class ProductImage
 {
     #[ORM\Id]
@@ -18,26 +20,32 @@ class ProductImage
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Vich\UploadableField(mapping: 'product', fileNameProperty: 'name', size: 'size', mimeType: 'mimeType', dimensions: 'dimensions')]
-    private ?string $file = null;
+    #[Vich\UploadableField(
+        mapping: 'product', 
+        fileNameProperty: 'name', 
+        size: 'size', 
+        mimeType: 'mimeType', 
+        dimensions: 'dimensions'
+    )]
+    private ?File $file = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $size = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $size = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $mimeType = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $dimensions = null;
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $dimensions = null;
 
     #[ORM\ManyToOne(inversedBy: 'productImages')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $productId = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $addDate = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $lastUpdate = null;
 
     public function getId(): ?int
@@ -62,7 +70,7 @@ class ProductImage
         return $this->file;
     }
 
-    public function setFile(?string $file): static
+    public function setFile(?File $file = null): static
     {
         $this->file = $file;
 
@@ -73,12 +81,12 @@ class ProductImage
         return $this;
     }
 
-    public function getSize(): ?string
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
-    public function setSize(string $size): static
+    public function setSize(int $size): static
     {
         $this->size = $size;
 
@@ -93,18 +101,6 @@ class ProductImage
     public function setMimeType(string $mimeType): static
     {
         $this->mimeType = $mimeType;
-
-        return $this;
-    }
-
-    public function getDimensions(): ?string
-    {
-        return $this->dimensions;
-    }
-
-    public function setDimensions(string $dimensions): static
-    {
-        $this->dimensions = $dimensions;
 
         return $this;
     }
@@ -141,6 +137,18 @@ class ProductImage
     public function setLastUpdate(\DateTimeImmutable $lastUpdate): static
     {
         $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    public function getDimensions(): ?array
+    {
+        return $this->dimensions;
+    }
+
+    public function setDimensions(?array $dimensions): static
+    {
+        $this->dimensions = $dimensions;
 
         return $this;
     }

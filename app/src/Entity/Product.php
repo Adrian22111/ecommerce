@@ -8,11 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[UniqueEntity(fields: 'symbol', message: 'symbol_used')]
-#[Vich\Uploadable]
 class Product
 {
     #[ORM\Id]
@@ -75,7 +73,12 @@ class Product
     /**
      * @var Collection<int, ProductImage>
      */
-    #[ORM\OneToMany(targetEntity: ProductImage::class, mappedBy: 'productId', orphanRemoval: true)]
+    #[ORM\OneToMany(
+        targetEntity: ProductImage::class, 
+        mappedBy: 'productId', 
+        orphanRemoval: true, 
+        cascade: ['persist', 'remove']
+    )]
     private Collection $productImages;
 
     public function __construct()

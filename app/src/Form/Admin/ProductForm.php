@@ -3,14 +3,19 @@
 namespace App\Form\Admin;
 
 use App\Entity\Product;
+use App\Entity\ProductImage;
 use App\Entity\ProductCategory;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\Admin\ProductImageForm;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ProductForm extends AbstractType
 {
@@ -29,8 +34,28 @@ class ProductForm extends AbstractType
                 'multiple' => true,
                 'autocomplete' => true
             ])
+            ->add('productImages', CollectionType::class, [
+                'entry_type' => ProductImageForm::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+            ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+                $product = $event->getData();
+                $form = $event->getForm();
+
+                // jeśli produkt istnieje i nie ma obrazków, dodaj pusty obiekt
+                // bo symfony nie zainicjalizuje kolekcji i nie będzie pola do update
+                if ($product && $product->getProductImages()->isEmpty()) {
+                    $product->addProductImage(new ProductImage());
+                }
+            })
         ;
+
     }
+
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {
