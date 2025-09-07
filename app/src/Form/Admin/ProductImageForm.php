@@ -19,10 +19,8 @@ class ProductImageForm extends AbstractType
                 'required' => false,
                 'allow_delete' => true,
                 'download_uri' => false,
-                'mapped' => false,
                 'empty_data' => true
-            ]);
-        ;
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

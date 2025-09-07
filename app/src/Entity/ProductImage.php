@@ -19,12 +19,11 @@ class ProductImage
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
     #[Vich\UploadableField(
-        mapping: 'product', 
-        fileNameProperty: 'name', 
-        size: 'size', 
-        mimeType: 'mimeType', 
+        mapping: 'product',
+        fileNameProperty: 'name',
+        size: 'size',
+        mimeType: 'mimeType',
         dimensions: 'dimensions'
     )]
     private ?File $file = null;
@@ -40,10 +39,7 @@ class ProductImage
 
     #[ORM\ManyToOne(inversedBy: 'productImages')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Product $productId = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $addDate = null;
+    private ?Product $product = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $lastUpdate = null;
@@ -58,14 +54,14 @@ class ProductImage
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getFile(): ?string
+    public function getFile(): ?File
     {
         return $this->file;
     }
@@ -86,7 +82,7 @@ class ProductImage
         return $this->size;
     }
 
-    public function setSize(int $size): static
+    public function setSize(?int $size = null): static
     {
         $this->size = $size;
 
@@ -98,33 +94,9 @@ class ProductImage
         return $this->mimeType;
     }
 
-    public function setMimeType(string $mimeType): static
+    public function setMimeType(?string $mimeType = null): static
     {
         $this->mimeType = $mimeType;
-
-        return $this;
-    }
-
-    public function getProductId(): ?Product
-    {
-        return $this->productId;
-    }
-
-    public function setProductId(?Product $productId): static
-    {
-        $this->productId = $productId;
-
-        return $this;
-    }
-
-    public function getAddDate(): ?\DateTimeImmutable
-    {
-        return $this->addDate;
-    }
-
-    public function setAddDate(\DateTimeImmutable $addDate): static
-    {
-        $this->addDate = $addDate;
 
         return $this;
     }
@@ -149,6 +121,18 @@ class ProductImage
     public function setDimensions(?array $dimensions): static
     {
         $this->dimensions = $dimensions;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
 
         return $this;
     }

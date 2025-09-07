@@ -74,9 +74,9 @@ class Product
      * @var Collection<int, ProductImage>
      */
     #[ORM\OneToMany(
-        targetEntity: ProductImage::class, 
-        mappedBy: 'productId', 
-        orphanRemoval: true, 
+        targetEntity: ProductImage::class,
+        mappedBy: 'product',
+        orphanRemoval: true,
         cascade: ['persist', 'remove']
     )]
     private Collection $productImages;
@@ -200,7 +200,7 @@ class Product
     {
         if (!$this->productImages->contains($productImage)) {
             $this->productImages->add($productImage);
-            $productImage->setProductId($this);
+            $productImage->setProduct($this);
         }
 
         return $this;
@@ -210,8 +210,8 @@ class Product
     {
         if ($this->productImages->removeElement($productImage)) {
             // set the owning side to null (unless already changed)
-            if ($productImage->getProductId() === $this) {
-                $productImage->setProductId(null);
+            if ($productImage->getProduct() === $this) {
+                $productImage->setProduct(null);
             }
         }
 

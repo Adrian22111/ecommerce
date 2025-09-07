@@ -43,7 +43,6 @@ class ProductForm extends AbstractType
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
                 $product = $event->getData();
-                $form = $event->getForm();
 
                 // jeśli produkt istnieje i nie ma obrazków, dodaj pusty obiekt
                 // bo symfony nie zainicjalizuje kolekcji i nie będzie pola do update
@@ -52,7 +51,6 @@ class ProductForm extends AbstractType
                 }
             })
         ;
-
     }
 
 
