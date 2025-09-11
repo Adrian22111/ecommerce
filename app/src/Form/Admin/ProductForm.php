@@ -12,10 +12,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class ProductForm extends AbstractType
 {
@@ -33,6 +35,14 @@ class ProductForm extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true,
                 'autocomplete' => true
+            ])
+            ->add('image', DropzoneType::class, [
+                'multiple' => false,
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'data-controller' => 'symfony--ux-dropzone--dropzone',
+                ]
             ])
         ;
     }

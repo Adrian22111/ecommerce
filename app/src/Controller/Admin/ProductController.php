@@ -6,6 +6,7 @@ use DateTime;
 use DateTimeImmutable;
 use App\Entity\Product;
 use App\Entity\ProductImage;
+use App\Service\FileUploader;
 use App\Form\Admin\ProductForm;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,10 +14,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/product')]
 final class ProductController extends AbstractController
 {
+    private $fileUploader;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->fileUploader = new FileUploader(
+            slugger: $slugger
+        );
+    }
+
     #[Route(name: 'product_list', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
@@ -59,11 +70,22 @@ final class ProductController extends AbstractController
         Product $product,
         EntityManagerInterface $entityManager,
     ): Response {
-        
+
         $form = $this->createForm(ProductForm::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $image = $form->get('image')->getData();
+
+            if ($image) {
+
+                $uploadedImageName = $this->fileUploader->upload($image, $this->getParameter('product_directory'));
+                $productImage = new ProductImage();
+                $productImage->setName($uploadedImageName);
+                $product->addProductImage($productImage);
+            }
+
             $product->setLastUpdate(new DateTime());
             $entityManager->persist($product);
             $entityManager->flush();

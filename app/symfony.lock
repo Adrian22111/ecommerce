@@ -191,6 +191,9 @@
             "config/routes/ux_autocomplete.yaml"
         ]
     },
+    "symfony/ux-dropzone": {
+        "version": "v2.30.0"
+    },
     "symfony/ux-turbo": {
         "version": "2.27",
         "recipe": {

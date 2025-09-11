@@ -23,6 +23,11 @@ class ProductImage
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $lastUpdate = null;
 
+    public function __construct()
+    {
+        $this->lastUpdate = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
