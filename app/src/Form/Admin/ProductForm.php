@@ -34,22 +34,6 @@ class ProductForm extends AbstractType
                 'multiple' => true,
                 'autocomplete' => true
             ])
-            ->add('productImages', CollectionType::class, [
-                'entry_type' => ProductImageForm::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-                $product = $event->getData();
-
-                // jeśli produkt istnieje i nie ma obrazków, dodaj pusty obiekt
-                // bo symfony nie zainicjalizuje kolekcji i nie będzie pola do update
-                if ($product && $product->getProductImages()->isEmpty()) {
-                    $product->addProductImage(new ProductImage());
-                }
-            })
         ;
     }
 
