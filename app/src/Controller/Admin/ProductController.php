@@ -19,14 +19,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/product')]
 final class ProductController extends AbstractController
 {
-    private $fileUploader;
-
-    public function __construct(SluggerInterface $slugger)
-    {
-        $this->fileUploader = new FileUploader(
-            slugger: $slugger
-        );
-    }
+    public function __construct(
+        private SluggerInterface $slugger,
+        private FileUploader $fileUploader    
+    ) {}
 
     #[Route(name: 'product_list', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
@@ -80,10 +76,18 @@ final class ProductController extends AbstractController
 
             if ($image) {
 
-                $uploadedImageName = $this->fileUploader->upload($image, $this->getParameter('product_directory'));
-                $productImage = new ProductImage();
-                $productImage->setName($uploadedImageName);
-                $product->addProductImage($productImage);
+                $uploadResult = $this->fileUploader->upload($image, $this->getParameter('product_directory'));
+
+                if(!empty($uploadResult) && $uploadResult->isSuccess()){
+                    $productImage = new ProductImage();
+                    $productImage->setName($uploadResult->getFileName());
+                    $product->addProductImage($productImage);
+                } else {
+                    $this->addFlash('error', $uploadResult->getMessage());
+                    return $this->redirectToRoute('admin_product_edit', [
+                        'id' => $product->getId()
+                    ], Response::HTTP_SEE_OTHER);
+                }
             }
 
             $product->setLastUpdate(new DateTime());
