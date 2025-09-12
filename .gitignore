@@ -1,3 +1,4 @@
 # Ignoruj zawartość mysql/
 mysql/*
 !mysql/.gitkeep
+/app/public/uploads/
