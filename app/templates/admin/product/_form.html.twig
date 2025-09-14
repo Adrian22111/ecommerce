@@ -1,6 +1,10 @@
 {% trans_default_domain 'admin.product' %}
 
-{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+{% block javascripts %}
+    {{ encore_entry_script_tags('product-form') }}
+{% endblock %}
+
+{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-product-id': product.id, 'id': 'product-form'}}) }}
     <div>
         {{ form_label(form.name, 'labels.name'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
         {{ form_widget(form.name, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
@@ -33,6 +37,11 @@
             }
         }) }}
         {{ form_errors(form.categories) }}
+    </div>
+    <div id="product-dropzone" class="dropzone">
+        {# {{ form_label(form.image, 'labels.image'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}} #}
+        {{ form_widget(form.image,{}) }}
+        {{ form_errors(form.image) }}
     </div>
     <div>
         <button type="submit" 

@@ -36,13 +36,10 @@ class ProductForm extends AbstractType
                 'multiple' => true,
                 'autocomplete' => true
             ])
-            ->add('image', DropzoneType::class, [
+            ->add('image', FileType::class, [
                 'multiple' => false,
                 'mapped' => false,
                 'required' => false,
-                'attr' => [
-                    'data-controller' => 'symfony--ux-dropzone--dropzone',
-                ]
             ])
         ;
     }

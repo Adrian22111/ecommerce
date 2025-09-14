@@ -1,4 +1,7 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 @import "./ux-autocomplete-custom.css";
+@layer components {
+    @import "dropzone/dist/dropzone.css";
+}
 

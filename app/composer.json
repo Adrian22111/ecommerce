@@ -24,7 +24,6 @@
         "symfony/translation": "7.3.*",
         "symfony/twig-bundle": "7.3.*",
         "symfony/ux-autocomplete": "^2.30",
-        "symfony/ux-dropzone": "^2.30",
         "symfony/ux-turbo": "^2.27",
         "symfony/validator": "7.3.*",
         "symfony/webpack-encore-bundle": "^2.2",

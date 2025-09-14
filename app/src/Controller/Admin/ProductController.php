@@ -13,15 +13,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/product')]
 final class ProductController extends AbstractController
 {
     public function __construct(
         private SluggerInterface $slugger,
-        private FileUploader $fileUploader    
+        private FileUploader $fileUploader
     ) {}
 
     #[Route(name: 'product_list', methods: ['GET'])]
@@ -72,27 +74,27 @@ final class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $image = $form->get('image')->getData();
+            // $image = $form->get('image')->getData();
 
-            if ($image) {
+            // if ($image) {
 
-                $uploadResult = $this->fileUploader->upload($image, $this->getParameter('product_directory'));
+            //     $uploadResult = $this->fileUploader->upload($image, $this->getParameter('product_directory'));
 
-                if(!empty($uploadResult) && $uploadResult->isSuccess()){
-                    $productImage = new ProductImage();
-                    $productImage->setName($uploadResult->getFileName());
-                    $product->addProductImage($productImage);
-                } else {
-                    $this->addFlash('error', $uploadResult->getMessage());
-                    return $this->redirectToRoute('admin_product_edit', [
-                        'id' => $product->getId()
-                    ], Response::HTTP_SEE_OTHER);
-                }
-            }
+            //     if (!empty($uploadResult) && $uploadResult->isSuccess()) {
+            //         $productImage = new ProductImage();
+            //         $productImage->setName($uploadResult->getFileName());
+            //         $product->addProductImage($productImage);
+            //     } else {
+            //         $this->addFlash('error', $uploadResult->getMessage());
+            //         return $this->redirectToRoute('admin_product_edit', [
+            //             'id' => $product->getId()
+            //         ], Response::HTTP_SEE_OTHER);
+            //     }
+            // }
 
-            $product->setLastUpdate(new DateTime());
-            $entityManager->persist($product);
-            $entityManager->flush();
+            // $product->setLastUpdate(new DateTime());
+            // $entityManager->persist($product);
+            // $entityManager->flush();
 
             $this->addFlash('success', 'update_successfull');
             return $this->redirectToRoute('admin_product_edit', [
@@ -116,5 +118,45 @@ final class ProductController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_product_list', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/{id}/upload-image', name: 'upload_image', methods: ['POST'])]
+    public function uploadProductImage(
+        Product $product,
+        Request $request,
+        FileUploader $fileUploader,
+        EntityManagerInterface $entityManager
+    ): JsonResponse {
+        $uploadedFile = $request->files->get('image');
+
+        if (!$uploadedFile instanceof UploadedFile) {
+            return new JsonResponse(['success' => false, 'message' => 'No file uploaded.'], 400);
+        }
+
+        $uploadResult = $fileUploader->upload(
+            $uploadedFile,
+            $this->getParameter('product_directory')
+        );
+
+        if ($uploadResult->isSuccess()) {
+            $productImage = new ProductImage();
+            $productImage->setName($uploadResult->getFileName());
+            $product->addProductImage($productImage);
+
+            $entityManager->persist($product);
+            $entityManager->flush();
+
+            return new JsonResponse([
+                'success' => true,
+                'message' => 'File uploaded successfully!',
+                'fileName' => $uploadResult->getFileName()
+            ]);
+        } else {
+            return new JsonResponse([
+                'success' => false,
+                'message' => $uploadResult->getMessage()
+            ], 400);
+        }
     }
 }
