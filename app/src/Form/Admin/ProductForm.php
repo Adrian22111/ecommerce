@@ -36,11 +36,11 @@ class ProductForm extends AbstractType
                 'multiple' => true,
                 'autocomplete' => true
             ])
-            ->add('image', FileType::class, [
-                'multiple' => false,
-                'mapped' => false,
-                'required' => false,
-            ])
+            // ->add('image', FileType::class, [
+            //     'multiple' => false,
+            //     'mapped' => false,
+            //     'required' => false,
+            // ])
         ;
     }
 

@@ -1,3 +1,4 @@
 file_upload_success: "file sent correctly"
 file_to_big: "uploaded file: %file_name% is too big. Max size of file: %upload_max_filesize%"
 unexpected_error: "Unexpected error occured. Try again. If error reccurs contact administrator"
+no_file_uploaded: "No file uploaded."
