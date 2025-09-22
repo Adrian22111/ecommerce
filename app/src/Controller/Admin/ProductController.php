@@ -112,18 +112,15 @@ final class ProductController extends AbstractController
         ProductImageService $productImageService,
         TranslatorInterface $translator
 
-    ): JsonResponse {
+    ): Response {
         $uploadedFile = $request->files->get('image');
         if (!$uploadedFile instanceof UploadedFile) {
-            return new JsonResponse(
-                [
-                    'success' => false,
-                    'message' => $translator->trans(
-                        'no_file_uploaded',
-                        [],
-                        'admin.product'
-                    )
-                ],
+            return new Response(
+                $translator->trans(
+                    'no_file_uploaded',
+                    [],
+                    'admin.product'
+                ),
                 400
             );
         }
@@ -131,16 +128,15 @@ final class ProductController extends AbstractController
         $res = $productImageService->addImageToProduct($product, $uploadedFile);
 
         if ($res->isSuccess()) {
-            return new JsonResponse([
-                'success' => $res->isSuccess(),
-                'message' => $res->getMessage(),
-                'fileName' => $res->getFileName()
-            ]);
+            return new Response(
+                $res->getMessage(),
+                200
+            );
         } else {
-            return new JsonResponse([
-                'success' => $res->isSuccess(),
-                'message' => $res->getMessage()
-            ], 400);
+            return new Response(
+                $res->getMessage(),
+                400
+            );
         }
     }
 }
