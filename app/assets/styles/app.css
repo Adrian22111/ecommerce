@@ -4,4 +4,8 @@
 @layer components {
     @import "dropzone/dist/dropzone.css";
 }
+label.required:before {
+    content: "*";
+    margin-right: 2px;
+}
 

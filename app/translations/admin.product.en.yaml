@@ -12,6 +12,8 @@ confirm_product_deletion: "Are you sure you want to delete: %product_name%?"
 edit: "edit"
 edit_product: "Edit product"
 no_file_uploaded: "No file uploaded."
+general: "general1"
+images: "images2"
 
 labels:
     name: "name"
