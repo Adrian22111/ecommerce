@@ -6,29 +6,57 @@ import { Controller } from "@hotwired/stimulus";
  *
  */
 export default class extends Controller {
+    /**
+     * tabList - div, where all tabs will be put
+     * tabButton - button created dynamically inside tabList used for switching tabs
+     * tab - wrapper around each tab content
+     */
     static targets = ["tabList", "tab", "tabButton"];
     static values = {
-        name: String,
+        name: String, //tab name to be displayed on the button
     };
 
     initialize() {
+        this.initializeTabButtons();
+        this.setDefaultStyles();
+    }
+
+    initializeTabButtons() {
         this.tabTargets.forEach((tab, index) => {
             const tabName = tab.dataset.tabNameValue;
-
-            const tabButton = document.createElement("a");
-            tabButton.href = "#";
-            tabButton.textContent = tabName;
-            tabButton.setAttribute("data-tab-target", "tabButton");
-            tabButton.setAttribute("data-tab-index", index);
-            tabButton.setAttribute("data-action", "click->tab#changeTab");
+            const tabButton = this.createTabButton(tabName, index);
             this.tabListTarget.appendChild(tabButton);
 
             if (index !== 0) {
                 this.hideTabContent(tab);
+                this.setInactiveButton(tabButton);
             } else {
                 this.setActiveButton(tabButton);
             }
         });
+    }
+
+    createTabButton(tabName, index) {
+        const tabButton = document.createElement("a");
+        tabButton.href = "#";
+        tabButton.textContent = tabName;
+        tabButton.setAttribute("data-tab-target", "tabButton");
+        tabButton.setAttribute("data-tab-index", index);
+        tabButton.setAttribute("data-action", "click->tab#changeTab");
+        tabButton.classList.add("px-3", "py-2", "capitalize", "break-all");
+
+        return tabButton;
+    }
+
+    setDefaultStyles() {
+        this.tabListTarget.classList.add(
+            "flex",
+            "border-solid",
+            "border-b",
+            "mb-2",
+            "border-gray-800",
+            "flex-wrap"
+        );
     }
 
     changeTab(event) {
@@ -66,19 +94,19 @@ export default class extends Controller {
 
     setActiveButton(button) {
         button.classList.remove(
-            "text-gray-500",
-            "hover:text-gray-700",
-            "border-transparent"
+            "text-gray-800",
+            "border-transparent",
+            "hover:bg-gray-100"
         );
-        button.classList.add("text-indigo-600", "border-indigo-600");
+        button.classList.add("bg-gray-100");
     }
 
     setInactiveButton(button) {
-        button.classList.remove("text-indigo-600", "border-indigo-600");
+        button.classList.remove("bg-gray-100");
         button.classList.add(
-            "text-gray-500",
-            "hover:text-gray-700",
-            "border-transparent"
+            "text-gray-800",
+            "border-transparent",
+            "hover:bg-gray-100"
         );
     }
 }

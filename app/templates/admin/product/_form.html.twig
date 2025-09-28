@@ -4,6 +4,7 @@
     {{ encore_entry_script_tags('product-form') }}
 {% endblock %}
 <div data-controller="tab">
+{# <div data-tab-target="tabList" class="flex border-solid border-b mb-2 border-gray-800 flex-wrap "></div> #}
 <div data-tab-target="tabList"></div>
 {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-product-id': product.id, 'id': 'product-form'}}) }}
     <div data-tab-target="tab" data-tab-name-value="{{ 'general'|trans }}">
