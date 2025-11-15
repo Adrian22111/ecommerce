@@ -19,6 +19,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\Json;
 
 #[Route('/product')]
 final class ProductController extends AbstractController
@@ -105,7 +106,7 @@ final class ProductController extends AbstractController
     }
 
 
-    #[Route('/{id}/upload-image', name: 'upload_image', methods: ['POST'])]
+    #[Route('/{id}/upload-image', name: 'product_upload_image', methods: ['POST'])]
     public function uploadProductImage(
         Product $product,
         Request $request,
@@ -138,5 +139,39 @@ final class ProductController extends AbstractController
                 400
             );
         }
+    }
+
+    #[Route('/{id}/remove-image/{productImage}', name: 'product_remove_image', methods: ['DELETE'])]
+    public function removeProductImage(
+        Product $product,
+        ProductImage $productImage,
+        ProductImageService $productImageService,
+        TranslatorInterface $translator
+    ): Response {
+
+        $result = $productImageService->removeImageFromProduct($product, $productImage);
+
+        if ($result) {
+            return new Response($translator->trans('image_remove_success', [], 'admin.product'), 200);
+        } else {
+            return new Response($translator->trans('image_remove_error', [],'admin.product'), 400);
+        }
+    }
+
+    #[Route('/{id}/images', name: 'product_images', methods: ['GET'])]
+    public function getProductImages(Product $product): Response
+    {
+        $images = [];
+        $productImages = $product->getProductImages();
+
+        foreach ($productImages as $image) {
+            $images[] = [
+                'id' => $image->getId(),
+                'name' => $image->getName(),
+                'src' => '/uploads/images/product/' .  $image->getName() //to improve
+            ];
+        }
+
+        return new JsonResponse($images, 200);
     }
 }

@@ -35,4 +35,25 @@ class ProductImageService
 
         return $uploadResult;
     }
+
+    public function removeImageFromProduct(Product $product, ProductImage $productImage): bool
+    {
+        if (!$product->getProductImages()->contains($productImage)) {
+            return false;
+        }
+
+        $filePath = $this->productDirectory . '/' . $productImage->getName();
+        if (file_exists($filePath)) {
+            $res = unlink($filePath);
+        }
+        if (!$res) {
+            return false;
+        }
+
+        $product->removeProductImage($productImage);
+        $this->entityManager->persist($product);
+        $this->entityManager->flush();
+
+        return true;
+    }
 }

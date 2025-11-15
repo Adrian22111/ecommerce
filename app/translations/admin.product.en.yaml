@@ -14,6 +14,8 @@ edit_product: "Edit product"
 no_file_uploaded: "No file uploaded."
 general: "general"
 images: "images"
+image_remove_success: "Image removed successfully."
+image_remove_error: "Error removing image."
 
 labels:
     name: "name"

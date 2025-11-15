@@ -44,11 +44,20 @@
     {% if product.id is defined and product.id is not null %}
         <div data-tab-target="tab" data-tab-name-value="{{ 'images'|trans }}">
             <div id="product-dropzone" class="dropzone bg-gray-100"></div>
+            <div
+                data-controller="image-panel"
+                data-image-panel-target="imageWrapper"
+                data-image-panel-product-id-value = "{{ product.id }}"
+                data-image-panel-fetch-url-value = "{{ path('admin_product_images', {'id': product.id}) }}"
+                data-image-panel-csrf-token-value = "{{ csrf_token('delete_image_for_product' ~ product.id) }}"
+                data-image-panel-delete-url-value = "{{ path('admin_product_remove_image', {'id': product.id, 'productImage': ':IMAGE_ID'}) }}"
+                class="mt-4">
+            </div>
         </div>
     {% endif %}
     <div>
-        <button type="submit" 
-                class="block w-full shadow-sm border-transparent bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 
+        <button type="submit"
+                class="block w-full shadow-sm border-transparent bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500
                     dark:hover:bg-indigo-400 text-white rounded-md border p-2 mt-4 mb-2 hover:cursor-pointer capitalize"
         >
             {{button_label}}
