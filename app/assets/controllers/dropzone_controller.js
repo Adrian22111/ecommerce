@@ -1,42 +1,52 @@
+import { Controller } from "@hotwired/stimulus";
+import Modal from "../js/Modal";
 import Dropzone from "dropzone";
-import "dropzone/dist/dropzone.css";
-import Modal from "./Modal";
 
-class DropzoneHandler {
-    constructor(dropzoneElement, formElement, uploadUrl, modal, config = {}) {
-        this.dropzoneElement = dropzoneElement;
-        this.form = formElement;
-        this.uploadUrl = uploadUrl;
-        this.modal = modal;
-        this.config = config;
+/**
+ * Tab controller
+ *
+ *
+ */
+export default class extends Controller {
+    /**
+     *
+     */
+    static targets = ["dropzoneArea"];
+    static values = {
+        uploadUrl: String,
+        config: String // JSON parsed to string
+    };
 
-        if (!(this.dropzoneElement instanceof Element)) {
-            throw new Error(`Dropzone element must be a valid DOM element.`);
+    initialize() {
+        this.dropzoneArea = this.dropzoneAreaTarget;
+        this.uploadUrl = this.uploadUrlValue;
+
+        if (typeof this.configValue !== "string" || this.configValue.trim() === "") {
+            throw new Error(`Config is required.`);
+        } else {
+            this.config = JSON.parse(this.configValue);
         }
 
-        if (!(this.form instanceof Element)) {
-            throw new Error(`Form element must be a valid DOM element.`);
+        if (!(this.dropzoneArea instanceof Element)) {
+            throw new Error(`Dropzone element must be a valid DOM element.`);
         }
 
         if (!this.uploadUrl) {
             throw new Error(`Upload URL is required.`);
         }
 
-        if (!this.modal || !(this.modal instanceof Modal)) {
-            throw new Error(`Modal instance is required.`);
-        }
-
         if (
-            (this.config !== null && typeof this.config !== "object") ||
+            (typeof this.config !== "object") ||
             Array.isArray(this.config)
         ) {
-            throw new Error(`Config must be an object.`);
+            throw new Error(`Couldn't parse config.`);
         }
 
-        this.initialize();
+        this.initDropzone();
     }
 
-    initialize() {
+
+    initDropzone() {
         const defaultOptions = {
             url: this.uploadUrl,
             paramName: "file",
@@ -48,8 +58,8 @@ class DropzoneHandler {
             error: this.handleError.bind(this),
         };
 
-        const options = { ...defaultOptions, ...this.config };
-        this.dropzoneInstance = new Dropzone(this.dropzoneElement, options);
+        const options = {...defaultOptions, ...this.config};
+        this.dropzoneInstance = new Dropzone(this.dropzoneArea, options);
     }
 
     handleUploadProgress(file, progress) {
@@ -79,12 +89,14 @@ class DropzoneHandler {
 
     handleError(file, message, xhr) {
         this.dropzoneInstance.removeFile(file);
-        this.modal.open({
-            title: "error",
-            content: message,
-            buttons: [],
-        });
+        console.log(message);
+        //commented for the modal rewriting into stimulus
+        // this.modal.open({
+        //     title: "error",
+        //     content: message,
+        //     buttons: [],
+        // });
     }
 }
 
-export default DropzoneHandler;
+

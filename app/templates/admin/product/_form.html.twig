@@ -1,67 +1,75 @@
 {% trans_default_domain 'admin.product' %}
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('product-form') }}
-{% endblock %}
+{#{% block javascripts %}#}
+{#    {{ encore_entry_script_tags('product-form') }}#}
+{#{% endblock %}#}
 <div data-controller="tab">
-<div data-tab-target="tabList"></div>
-{{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-product-id': product.id, 'id': 'product-form'}}) }}
-    <div data-tab-target="tab" data-tab-name-value="{{ 'general'|trans }}">
-        <div>
-            {{ form_label(form.name, 'labels.name'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
-            {{ form_widget(form.name, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
-            {{ form_errors(form.name) }}
-        </div>
-        <div>
-            {{ form_label(form.symbol, 'labels.symbol'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
-            {{ form_widget(form.symbol, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
-            {{ form_errors(form.symbol) }}
-        </div>
-        <div>
-            {{ form_label(form.price, 'labels.price'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
-            {{ form_widget(form.price, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
-            {{ form_errors(form.price) }}
-        </div>
-        <div>
-            {{ form_label(form.description, 'labels.desc'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
-            {{ form_widget(form.description, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
-            {{ form_errors(form.description) }}
-        </div>
-        <div>
-            {{ form_label(form.categories, 'labels.categories'|trans, {
-                'label_attr': {
-                    'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'
-                }
-            }) }}
-            {{ form_widget(form.categories, {
-                'attr' : {
-                    'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'
-                }
-            }) }}
-            {{ form_errors(form.categories) }}
-        </div>
-    </div>
-    {% if product.id is defined and product.id is not null %}
-        <div data-tab-target="tab" data-tab-name-value="{{ 'images'|trans }}">
-            <div id="product-dropzone" class="dropzone bg-gray-100"></div>
-            <div
-                data-controller="image-panel"
-                data-image-panel-target="imageWrapper"
-                data-image-panel-product-id-value = "{{ product.id }}"
-                data-image-panel-fetch-url-value = "{{ path('admin_product_images', {'id': product.id}) }}"
-                data-image-panel-csrf-token-value = "{{ csrf_token('delete_image_for_product' ~ product.id) }}"
-                data-image-panel-delete-url-value = "{{ path('admin_product_remove_image', {'id': product.id, 'productImage': ':IMAGE_ID'}) }}"
-                class="mt-4">
+    <div data-tab-target="tabList"></div>
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-product-id': product.id, 'id': 'product-form'}}) }}
+        <div data-tab-target="tab" data-tab-name-value="{{ 'general'|trans }}">
+            <div>
+                {{ form_label(form.name, 'labels.name'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+                {{ form_widget(form.name, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
+                {{ form_errors(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.symbol, 'labels.symbol'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+                {{ form_widget(form.symbol, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
+                {{ form_errors(form.symbol) }}
+            </div>
+            <div>
+                {{ form_label(form.price, 'labels.price'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+                {{ form_widget(form.price, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
+                {{ form_errors(form.price) }}
+            </div>
+            <div>
+                {{ form_label(form.description, 'labels.desc'|trans, {'label_attr': {'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'}})}}
+                {{ form_widget(form.description, {'attr' : {'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'}})}}
+                {{ form_errors(form.description) }}
+            </div>
+            <div>
+                {{ form_label(form.categories, 'labels.categories'|trans, {
+                    'label_attr': {
+                        'class': 'block text-sm text-gray-700 dark:text-gray-300 font-medium'
+                    }
+                }) }}
+                {{ form_widget(form.categories, {
+                    'attr' : {
+                        'class': 'bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2'
+                    }
+                }) }}
+                {{ form_errors(form.categories) }}
             </div>
         </div>
-    {% endif %}
-    <div>
-        <button type="submit"
-                class="block w-full shadow-sm border-transparent bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500
-                    dark:hover:bg-indigo-400 text-white rounded-md border p-2 mt-4 mb-2 hover:cursor-pointer capitalize"
-        >
-            {{button_label}}
-        </button>
-    </div>
-{{ form_end(form) }}
+        {% if product.id is defined and product.id is not null %}
+            <div data-tab-target="tab" data-tab-name-value="{{ 'images'|trans }}">
+                <div
+                    id="product-dropzone"
+                    class="dropzone bg-gray-100"
+                    data-controller="dropzone"
+                    data-dropzone-target="dropzoneArea"
+                    data-dropzone-upload-url-value="{{ path('admin_product_upload_image', {'id': product.id}) }}"
+                    data-dropzone-config-value='{"paramName":"image","acceptedFiles":"image/*"}'
+                >
+                </div>
+                <div
+                    data-controller="image-panel"
+                    data-image-panel-target="imageWrapper"
+                    data-image-panel-product-id-value = "{{ product.id }}"
+                    data-image-panel-fetch-url-value = "{{ path('admin_product_images', {'id': product.id}) }}"
+                    data-image-panel-csrf-token-value = "{{ csrf_token('delete_image_for_product' ~ product.id) }}"
+                    data-image-panel-delete-url-value = "{{ path('admin_product_remove_image', {'id': product.id, 'productImage': ':IMAGE_ID'}) }}"
+                    class="mt-4">
+                </div>
+            </div>
+        {% endif %}
+        <div>
+            <button type="submit"
+                    class="block w-full shadow-sm border-transparent bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500
+                        dark:hover:bg-indigo-400 text-white rounded-md border p-2 mt-4 mb-2 hover:cursor-pointer capitalize"
+            >
+                {{button_label}}
+            </button>
+        </div>
+    {{ form_end(form) }}
 </div>
