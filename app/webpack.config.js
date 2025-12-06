@@ -75,6 +75,7 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
     .enablePostCssLoader()
-    .addEntry("product-form", "./assets/js/Admin/ProductForm.js");
+    .addEntry('product-form', './assets/js/product_form.js');
+
 
 module.exports = Encore.getWebpackConfig();

@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
-import Modal from "../js/Modal";
+import Modal_old from "../js/classes/Modal_old";
 import Dropzone from "dropzone";
 
 /**

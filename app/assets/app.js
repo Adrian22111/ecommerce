@@ -8,9 +8,3 @@ import "./bootstrap.js";
 
 // any CSS you import will output into a single css file (app.css in this case)
 import "./styles/app.css";
-
-import Modal from "./js/Modal.js";
-
-document.addEventListener("DOMContentLoaded", () => {
-    window.modal = new Modal("dialog");
-});

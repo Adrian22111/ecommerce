@@ -1,4 +1,4 @@
-class Modal {
+class Modal_old {
     constructor(dialogId) {
         this.dialogId = dialogId;
         this._bindCloseHandler();
@@ -19,7 +19,7 @@ class Modal {
         return true;
     }
 
-    // zamykanie modala 
+    // zamykanie modala
     _bindCloseHandler() {
         document.addEventListener("click", (e) => {
             if (e.target && e.target.id === "modal-close") {
@@ -49,8 +49,8 @@ class Modal {
             const button = document.createElement("button");
             button.textContent = btn.text || "OK";
             button.className =
-                `block w-full shadow-sm border-transparent rounded-md border p-2 mt-4 mb-2 
-                 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 
+                `block w-full shadow-sm border-transparent rounded-md border p-2 mt-4 mb-2
+                 hover:cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700
                  dark:hover:bg-gray-600 dark:text-gray-100 text-center capitalize ${btn.class}`;
             button.addEventListener("click", () => {
                 if (btn.onClick) btn.onClick();
@@ -68,4 +68,4 @@ class Modal {
     }
 }
 
-export default Modal; 
+export default Modal_old;
