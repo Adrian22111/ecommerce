@@ -46,7 +46,7 @@ class ProductImageService
         if (file_exists($filePath)) {
             $res = unlink($filePath);
         }
-        if (!$res) {
+        if (empty($res)) {
             return false;
         }
 
