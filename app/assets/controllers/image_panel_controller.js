@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import axios from "axios";
+import ModalFactory from "../js/classes/ModalFactory";
 
 /**
  * Image panel controller
@@ -16,7 +17,7 @@ export default class extends Controller {
     };
 
     initialize() {
-        this.fetchImages();
+        void this.fetchImages();
         this.setDefaultStyles();
     }
 
@@ -31,16 +32,14 @@ export default class extends Controller {
 
     async fetchImages() {
         if (!this.hasFetchUrlValue) {
-            console.error("Fetch URL is not provided.");
+            ModalFactory.create('unexpectedError').open();
             return;
         }
-
-        try {
+        try{
             const response = await axios.get(this.fetchUrlValue);
             this.renderImages(response.data);
         } catch (error) {
-            console.error("Error during fetching:", error);
-            return;
+            ModalFactory.create('unexpectedError').open();
         }
     }
 
@@ -107,7 +106,7 @@ export default class extends Controller {
         const imageId = clickedButton.getAttribute("data-image-id");
 
         if (!imageId) {
-            console.error("Image id not provided");
+            ModalFactory.create('unexpectedError').open();
             return;
         }
 
@@ -122,7 +121,7 @@ export default class extends Controller {
                 imageItem.remove();
             }
         } catch (error) {
-            console.error("Error during image deletion:", error);
+            ModalFactory.create('unexpectedError').open();
         }
     }
 }

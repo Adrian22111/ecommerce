@@ -1,8 +1,5 @@
 {% trans_default_domain 'admin.product' %}
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('product-form') }}
-{% endblock %}
 <div data-controller="tab">
     <div data-tab-target="tabList"></div>
     {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'data-product-id': product.id, 'id': 'product-form'}}) }}
