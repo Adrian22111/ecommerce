@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 import Dropzone from "dropzone";
+import Modal from "../js/classes/Modal";
 
 /**
  * Tab controller
@@ -88,13 +89,11 @@ export default class extends Controller {
 
     handleError(file, message, xhr) {
         this.dropzoneInstance.removeFile(file);
-        console.log(message);
-        //commented for the modal rewriting into stimulus
-        // this.modal.open({
-        //     title: "error",
-        //     content: message,
-        //     buttons: [],
-        // });
+        const modal = new Modal();
+        modal.setTitle("Unsuccessful file upload")
+            .setText(message)
+            .setVariant('error')
+            .open();
     }
 }
 
