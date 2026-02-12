@@ -56,6 +56,7 @@ export default class extends Controller {
 
             uploadprogress: this.handleUploadProgress.bind(this),
             error: this.handleError.bind(this),
+            success: this.handleSuccess.bind(this)
         };
 
         const options = {...defaultOptions, ...this.config};
@@ -87,13 +88,25 @@ export default class extends Controller {
         }
     }
 
-    handleError(file, message, xhr) {
+    handleError(file, response, xhr) {
         this.dropzoneInstance.removeFile(file);
         const modal = new Modal();
         modal.setTitle("Unsuccessful file upload")
-            .setText(message)
+            .setText(response.message)
             .setVariant('error')
             .open();
+    }
+
+    handleSuccess(file, response){
+        document.dispatchEvent(
+            new CustomEvent('image:uploaded', {
+                detail: {
+                    'uploadDirectory': response.uploadDirectory,
+                    'fileName': response.fileName,
+                    'databaseId': response.databaseId
+                },
+            })
+        );
     }
 }
 

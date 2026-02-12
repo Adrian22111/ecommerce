@@ -19,6 +19,7 @@ export default class extends Controller {
     initialize() {
         void this.fetchImages();
         this.setDefaultStyles();
+        document.addEventListener('image:uploaded', this.handleImageUploaded.bind(this));
     }
 
     setDefaultStyles() {
@@ -123,5 +124,16 @@ export default class extends Controller {
         } catch (error) {
             ModalFactory.create('unexpectedError').open();
         }
+    }
+
+    handleImageUploaded(event)
+    {
+        const image = {
+            'id': event.detail.databaseId,
+            'src': event.detail.uploadDirectory + '/' + event.detail.fileName,
+            'name': event.detail.filename,
+        };
+        let imageItem = this.generateImageItem(image);
+        this.imageWrapperTarget.appendChild(imageItem);
     }
 }

@@ -129,15 +129,18 @@ final class ProductController extends AbstractController
         $res = $productImageService->addImageToProduct($product, $uploadedFile);
 
         if ($res->isSuccess()) {
-            return new Response(
-                $res->getMessage(),
-                200
-            );
+            return new JsonResponse([
+                'success' => true,
+                'message' => $res->getMessage(),
+                'uploadDirectory' => $res->getUploadDirectory(),
+                'fileName' => $res->getFileName(),
+                'databaseId' => $res->getDatabaseId(),
+            ], 200);
         } else {
-            return new Response(
-                $res->getMessage(),
-                400
-            );
+            return new JsonResponse([
+                'success' => false,
+                'message' => $res->getMessage()
+            ], 400);
         }
     }
 

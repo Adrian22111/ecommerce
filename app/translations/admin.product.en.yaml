@@ -16,6 +16,7 @@ general: "general"
 images: "images"
 image_remove_success: "Image removed successfully."
 image_remove_error: "Error removing image."
+image_upload_unsuccessful: "An error occurred while adding the photo. Please try again later."
 
 labels:
     name: "name"
