@@ -23,11 +23,10 @@ use Symfony\Component\Validator\Constraints\Json;
 #[Route('/product')]
 final class ProductController extends AbstractController
 {
-    private mixed $uploadsPath;
 
-    public function __construct($uploadsPath)
+    public function __construct()
     {
-        $this->uploadsPath = $uploadsPath;
+
     }
 
     #[Route(name: 'product_list', methods: ['GET'])]
