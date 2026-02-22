@@ -130,7 +130,7 @@ export default class extends Controller {
     {
         const image = {
             'id': event.detail.databaseId,
-            'src': event.detail.uploadDirectory + '/' + event.detail.fileName,
+            'src': event.detail.imagePath,
             'name': event.detail.filename,
         };
         let imageItem = this.generateImageItem(image);

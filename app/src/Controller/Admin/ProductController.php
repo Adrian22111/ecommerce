@@ -7,7 +7,6 @@ use DateTimeImmutable;
 use App\Entity\Product;
 use App\Service\ProductImageService;
 use App\Entity\ProductImage;
-use App\Service\FileUploader;
 use App\Form\Admin\ProductForm;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,10 +23,12 @@ use Symfony\Component\Validator\Constraints\Json;
 #[Route('/product')]
 final class ProductController extends AbstractController
 {
-    public function __construct(
-        private SluggerInterface $slugger,
-        private FileUploader $fileUploader
-    ) {}
+    private mixed $uploadsPath;
+
+    public function __construct($uploadsPath)
+    {
+        $this->uploadsPath = $uploadsPath;
+    }
 
     #[Route(name: 'product_list', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
@@ -132,8 +133,7 @@ final class ProductController extends AbstractController
             return new JsonResponse([
                 'success' => true,
                 'message' => $res->getMessage(),
-                'uploadDirectory' => $res->getUploadDirectory(),
-                'fileName' => $res->getFileName(),
+                'imagePath' => $productImageService->getPublicPath($res->getFileName()),
                 'databaseId' => $res->getDatabaseId(),
             ], 200);
         } else {
@@ -162,7 +162,7 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/{id}/images', name: 'product_images', methods: ['GET'])]
-    public function getProductImages(Product $product): Response
+    public function getProductImages(Product $product, ProductImageService $productImageService): Response
     {
         $images = [];
         $productImages = $product->getProductImages();
@@ -171,7 +171,7 @@ final class ProductController extends AbstractController
             $images[] = [
                 'id' => $image->getId(),
                 'name' => $image->getName(),
-                'src' => '/uploads/images/product/' .  $image->getName() //to improve
+                'src' =>  $productImageService->getPublicPath($image),
             ];
         }
 

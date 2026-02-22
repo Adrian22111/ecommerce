@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\Product;
 use App\Dto\UploadResult;
 use App\Entity\ProductImage;
-use App\Service\FileUploader;
+use App\Service\FileHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -14,19 +14,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductImageService
 {
+    const PRODUCT_IMAGE = 'product/image/';
     public function __construct(
-        private FileUploader $fileUploader,
+        private FileHandler            $fileHandler,
         private EntityManagerInterface $entityManager,
-        private string $productDirectory,
-        private TranslatorInterface $translator,
-        private KernelInterface $kernel
+        private string                 $uploadsPath,
+        private TranslatorInterface    $translator,
     ) {}
 
     public function addImageToProduct(Product $product, UploadedFile $uploadedFile): UploadResult
     {
-        $uploadResult = $this->fileUploader->upload(
+        $uploadResult = $this->fileHandler->upload(
             $uploadedFile,
-            $this->productDirectory
+            $this->uploadsPath . '/' . self::PRODUCT_IMAGE
         );
 
         if ($uploadResult->isSuccess()) {
@@ -42,11 +42,8 @@ class ProductImageService
                 $uploadResult->setSuccess(false);
                 $uploadResult->setMessage($this->translator->trans('image_upload_unsuccessful', [], 'admin.product'));
 
-                //TODO rebuild FileUploader INTO FileService and add methods to get filePath and remove files
                 $filePath = $uploadResult->getUploadDirectory() . '/' . $uploadResult->getFileName();
-                if (file_exists($filePath)) {
-                    $res = unlink($filePath);
-                }
+                $this->fileHandler->delete($filePath);
             }
         }
 
@@ -59,15 +56,21 @@ class ProductImageService
             return false;
         }
 
-        $filePath = $this->kernel->getProjectDir() . '/public' . $this->productDirectory . '/' . $productImage->getName();
-        if (file_exists($filePath)) {
-            $res = unlink($filePath);
-        }
-
+        $filePath = $this->uploadsPath . '/' . self::PRODUCT_IMAGE . $productImage->getName();
+        $this->fileHandler->delete($filePath);
         $product->removeProductImage($productImage);
         $this->entityManager->persist($product);
         $this->entityManager->flush();
 
         return true;
+    }
+
+    public function getPublicPath(ProductImage|string|null $productImage): ?string
+    {
+        if($productImage === null){
+            return null;
+        }
+        $filename = $productImage instanceof ProductImage ? $productImage->getName() : $productImage;
+        return '/uploads/' . self::PRODUCT_IMAGE . $filename;
     }
 }

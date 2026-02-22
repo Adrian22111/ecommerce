@@ -12,12 +12,11 @@ use Symfony\Component\HttpFoundation\File\Exception\NoFileException;
 use Symfony\Component\HttpFoundation\File\Exception\IniSizeFileException;
 use Symfony\Component\HttpFoundation\File\Exception\ExtensionFileException;
 
-class FileUploader
+class FileHandler
 {
     public function __construct(
         private readonly SluggerInterface    $slugger,
         private readonly TranslatorInterface $translator,
-        private readonly KernelInterface     $kernel,
     ) {}
 
     public function upload(UploadedFile $file, string $targetDirectory): UploadResult
@@ -25,10 +24,9 @@ class FileUploader
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-        $fullTargetDirectory  = $this->kernel->getProjectDir() . '/public/' . $targetDirectory;
 
         try {
-            $file->move($fullTargetDirectory, $fileName);
+            $file->move($targetDirectory, $fileName);
         } catch (IniSizeFileException $e) {
             return new UploadResult(
                 false,
@@ -75,5 +73,14 @@ class FileUploader
             $fileName,
             $targetDirectory
         );
+    }
+
+    public function delete($filePath): bool
+    {
+        $res = false;
+        if (file_exists($filePath)) {
+            $res = unlink($filePath);
+        }
+        return $res;
     }
 }

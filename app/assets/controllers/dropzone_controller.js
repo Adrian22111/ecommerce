@@ -101,8 +101,7 @@ export default class extends Controller {
         document.dispatchEvent(
             new CustomEvent('image:uploaded', {
                 detail: {
-                    'uploadDirectory': response.uploadDirectory,
-                    'fileName': response.fileName,
+                    'imagePath': response.imagePath,
                     'databaseId': response.databaseId
                 },
             })
