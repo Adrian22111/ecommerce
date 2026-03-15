@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -111,8 +112,8 @@ final class ProductController extends AbstractController
         Product $product,
         Request $request,
         ProductImageService $productImageService,
-        TranslatorInterface $translator
-
+        TranslatorInterface $translator,
+        UrlGeneratorInterface $urlGenerator,
     ): Response {
         $uploadedFile = $request->files->get('image');
         if (!$uploadedFile instanceof UploadedFile) {
@@ -134,6 +135,10 @@ final class ProductController extends AbstractController
                 'message' => $res->getMessage(),
                 'imagePath' => $productImageService->getThumbnailPath($res->getFileName(), 'image_panel_thumbnail_small'),
                 'databaseId' => $res->getDatabaseId(),
+                'deleteUrl' => $urlGenerator->generate('admin_product_remove_image', [
+                    'id' => $product->getId(),
+                    'productImage' => $res->getDatabaseId()
+                ]),
             ], 200);
         } else {
             return new JsonResponse([
@@ -161,7 +166,7 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/{id}/images', name: 'product_images', methods: ['GET'])]
-    public function getProductImages(Product $product, ProductImageService $productImageService): Response
+    public function getProductImages(Product $product, ProductImageService $productImageService, UrlGeneratorInterface $urlGenerator): Response
     {
         $images = [];
         $productImages = $product->getProductImages();
@@ -171,6 +176,10 @@ final class ProductController extends AbstractController
                 'id' => $image->getId(),
                 'name' => $image->getName(),
                 'src' =>  $productImageService->getThumbnailPath($image, 'image_panel_thumbnail_small'),
+                'deleteUrl' => $urlGenerator->generate('admin_product_remove_image', [
+                    'id' => $product->getId(),
+                    'productImage' => $image->getId(),
+                ]),
             ];
         }
 

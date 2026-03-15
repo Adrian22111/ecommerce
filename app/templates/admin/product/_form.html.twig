@@ -55,7 +55,6 @@
                     data-image-panel-product-id-value = "{{ product.id }}"
                     data-image-panel-fetch-url-value = "{{ path('admin_product_images', {'id': product.id}) }}"
                     data-image-panel-csrf-token-value = "{{ csrf_token('delete_image_for_product' ~ product.id) }}"
-                    data-image-panel-delete-url-value = "{{ path('admin_product_remove_image', {'id': product.id, 'productImage': ':IMAGE_ID'}) }}"
                     class="mt-4">
                 </div>
             </div>

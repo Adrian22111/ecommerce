@@ -92,6 +92,7 @@ export default class extends Controller {
         );
 
         button.setAttribute("data-action", "click->image-panel#deleteImage");
+        button.setAttribute("data-delete-url", image.deleteUrl);
         button.setAttribute("data-image-id", image.id);
 
         imageItem.appendChild(img);
@@ -104,16 +105,16 @@ export default class extends Controller {
         event.preventDefault();
 
         const clickedButton = event.currentTarget;
+        const deleteUrl = clickedButton.getAttribute("data-delete-url");
         const imageId = clickedButton.getAttribute("data-image-id");
 
-        if (!imageId) {
+        if (!deleteUrl || !imageId) {
             ModalFactory.create('unexpectedError').open();
             return;
         }
 
         try {
             //Delete in database
-            const deleteUrl = this.deleteUrlValue.replace(":IMAGE_ID", imageId);
             const response = await axios.delete(deleteUrl);
 
             //Delete in Html
@@ -132,6 +133,7 @@ export default class extends Controller {
             'id': event.detail.databaseId,
             'src': event.detail.imagePath,
             'name': event.detail.filename,
+            'deleteUrl': event.detail.deleteUrl,
         };
         let imageItem = this.generateImageItem(image);
         this.imageWrapperTarget.appendChild(imageItem);

@@ -102,7 +102,8 @@ export default class extends Controller {
             new CustomEvent('image:uploaded', {
                 detail: {
                     'imagePath': response.imagePath,
-                    'databaseId': response.databaseId
+                    'databaseId': response.databaseId,
+                    'deleteUrl': response.deleteUrl
                 },
             })
         );
