@@ -132,7 +132,7 @@ final class ProductController extends AbstractController
             return new JsonResponse([
                 'success' => true,
                 'message' => $res->getMessage(),
-                'imagePath' => $productImageService->getPublicPath($res->getFileName()),
+                'imagePath' => $productImageService->getThumbnailPath($res->getFileName(), 'image_panel_thumbnail_small'),
                 'databaseId' => $res->getDatabaseId(),
             ], 200);
         } else {
@@ -170,7 +170,7 @@ final class ProductController extends AbstractController
             $images[] = [
                 'id' => $image->getId(),
                 'name' => $image->getName(),
-                'src' =>  $productImageService->getPublicPath($image),
+                'src' =>  $productImageService->getThumbnailPath($image, 'image_panel_thumbnail_small'),
             ];
         }
 

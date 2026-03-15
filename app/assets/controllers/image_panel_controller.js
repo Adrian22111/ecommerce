@@ -25,8 +25,8 @@ export default class extends Controller {
     setDefaultStyles() {
         this.imageWrapperTarget.classList.add(
             "grid",
-            "grid-cols-2",
-            "gap-4",
+            "grid-cols-3",
+            "gap-2",
             "hover:cursor-pointer"
         );
     }
@@ -74,8 +74,8 @@ export default class extends Controller {
         button.innerHTML = "&times;";
         button.classList.add(
             "absolute",
-            "top-1",
-            "right-1",
+            "top-2",
+            "right-3",
             "text-red-500",
             "p-1",
             "flex",
