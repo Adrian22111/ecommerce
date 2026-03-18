@@ -153,8 +153,12 @@ final class ProductController extends AbstractController
         Product $product,
         ProductImage $productImage,
         ProductImageService $productImageService,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        Request $request,
     ): Response {
+        if (!$this->isCsrfTokenValid('image_panel', $request->headers->get('X-CSRF-TOKEN'))) {
+            return new Response($translator->trans('invalid_csrf', [], 'error'), 403);
+        }
 
         $result = $productImageService->removeImageFromProduct($product, $productImage);
 

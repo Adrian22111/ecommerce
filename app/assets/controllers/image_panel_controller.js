@@ -13,7 +13,6 @@ export default class extends Controller {
         fetchUrl: String, // URL to fetch images from
         csrfToken: String, // CSRF token for secure requests
         productId: String, // images are rendered for this product
-        deleteUrl: String //
     };
 
     initialize() {
@@ -115,7 +114,11 @@ export default class extends Controller {
 
         try {
             //Delete in database
-            const response = await axios.delete(deleteUrl);
+            const response = await axios.delete(deleteUrl, {
+                headers: {
+                    'X-CSRF-TOKEN': this.csrfTokenValue
+                }
+            });
 
             //Delete in Html
             const imageItem = clickedButton.closest(`.image_${imageId}`);
