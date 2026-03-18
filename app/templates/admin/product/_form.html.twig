@@ -46,7 +46,7 @@
                     data-controller="dropzone"
                     data-dropzone-target="dropzoneArea"
                     data-dropzone-upload-url-value="{{ path('admin_product_upload_image', {'id': product.id}) }}"
-                    data-dropzone-config-value='{"paramName":"image","acceptedFiles":"image/*", "headers": {"X-CSRF-TOKEN": "{{ csrf_token('upload_product_image') }}"}}'
+                    data-dropzone-config-value='{"paramName":"image","acceptedFiles":"image/*", "headers": {"X-CSRF-TOKEN": "{{ csrf_token('upload_product_image' ~ product.id) }}"}}'
                 >
                 </div>
                 <div
@@ -54,7 +54,7 @@
                     data-image-panel-target="imageWrapper"
                     data-image-panel-product-id-value = "{{ product.id }}"
                     data-image-panel-fetch-url-value = "{{ path('admin_product_images', {'id': product.id}) }}"
-                    data-image-panel-csrf-token-value = "{{ csrf_token('image_panel') }}"
+                    data-image-panel-csrf-token-value = "{{ csrf_token('delete_product_image' ~ product.id) }}"
                     class="mt-4">
                 </div>
             </div>

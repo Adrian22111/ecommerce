@@ -115,7 +115,7 @@ final class ProductController extends AbstractController
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
     ): Response {
-        if (!$this->isCsrfTokenValid('upload_product_image', $request->headers->get('X-CSRF-TOKEN'))) {
+        if (!$this->isCsrfTokenValid('upload_product_image' . $product->getId(), $request->headers->get('X-CSRF-TOKEN'))) {
             return new Response($translator->trans('invalid_csrf', [], 'error'), 403);
         }
 
@@ -160,7 +160,7 @@ final class ProductController extends AbstractController
         TranslatorInterface $translator,
         Request $request,
     ): Response {
-        if (!$this->isCsrfTokenValid('image_panel', $request->headers->get('X-CSRF-TOKEN'))) {
+        if (!$this->isCsrfTokenValid('delete_product_image' . $product->getId() , $request->headers->get('X-CSRF-TOKEN'))) {
             return new Response($translator->trans('invalid_csrf', [], 'error'), 403);
         }
 
