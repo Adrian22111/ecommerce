@@ -46,7 +46,7 @@
                     data-controller="dropzone"
                     data-dropzone-target="dropzoneArea"
                     data-dropzone-upload-url-value="{{ path('admin_product_upload_image', {'id': product.id}) }}"
-                    data-dropzone-config-value='{"paramName":"image","acceptedFiles":"image/*"}'
+                    data-dropzone-config-value='{"paramName":"image","acceptedFiles":"image/*", "headers": {"X-CSRF-TOKEN": "{{ csrf_token('upload_product_image') }}"}}'
                 >
                 </div>
                 <div

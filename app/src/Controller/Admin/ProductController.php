@@ -115,6 +115,10 @@ final class ProductController extends AbstractController
         TranslatorInterface $translator,
         UrlGeneratorInterface $urlGenerator,
     ): Response {
+        if (!$this->isCsrfTokenValid('upload_product_image', $request->headers->get('X-CSRF-TOKEN'))) {
+            return new Response($translator->trans('invalid_csrf', [], 'error'), 403);
+        }
+
         $uploadedFile = $request->files->get('image');
         if (!$uploadedFile instanceof UploadedFile) {
             return new Response(
