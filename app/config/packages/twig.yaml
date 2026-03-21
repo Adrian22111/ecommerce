@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: "*.twig"
     default_path: "%kernel.project_dir%/templates"
+    paths:
+        '%kernel.project_dir%/templates/admin': admin
+        '%kernel.project_dir%/templates/client': client
     form_themes:
         - "theme/form/fields.html.twig"
 when@test:
