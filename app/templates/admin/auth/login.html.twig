@@ -1,11 +1,14 @@
 {% extends 'admin/base.html.twig' %}
+{% trans_default_domain 'admin.login' %}
 
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
     <form method="post" class="grid grid-cols-1 max-w-xl mx-auto w-full" novalidate="novalidate">
         {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="rounded-md p-2 mb-4 border border-red-300 bg-red-50 dark:border-red-600 dark:bg-red-700 dark:text-white">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
         {% endif %}
 
         {% if app.user %}
@@ -15,11 +18,11 @@
         {% endif %}
 
         <div class="">
-            <label class="block text-sm text-gray-700 dark:text-gray-300 font-medium" for="username">Email</label>
+            <label class="block text-sm text-gray-700 dark:text-gray-300 font-medium" for="username">{{ 'email'|trans }}</label>
             <input type="email" value="{{ last_username }}" name="_username" id="username" autocomplete="email" required autofocus class="bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2 form-control">
         </div>
         <div class="">
-            <label class="block text-sm text-gray-700 dark:text-gray-300 font-medium" for="password">Password</label>
+            <label class="block text-sm text-gray-700 dark:text-gray-300 font-medium" for="password">{{ 'password'|trans }}</label>
             <input type="password" name="_password" id="password" autocomplete="current-password" required class="form-control bg-gray-100 block w-full shadow-sm border-gray-300 dark:border-transparent dark:text-gray-800 rounded-md border p-2 mt-1 mb-2 form-control">
         </div>
         <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
@@ -37,7 +40,7 @@
         <button class="block w-full shadow-sm border-transparent bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500
             dark:hover:bg-indigo-400 text-white rounded-md border p-2 mt-4 mb-2 hover:cursor-pointer capitalize" type="submit"
         >
-            Sign in
+            {{ 'sign_in'|trans }}
         </button>
     </form>
 {% endblock %}
