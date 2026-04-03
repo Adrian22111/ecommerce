@@ -16,10 +16,20 @@
             <div class="px-3 py-3 flex justify-between bg-gray-200 dark:bg-gray-800">
                 <div>
                 </div>
-                <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full">
-                    <i class="fa-solid fa-user"></i>
-                    {# tutaj if else wyświetlania zdjęcia profilowego #}
+                {% if is_granted('ROLE_ADMIN') %}
+                <div data-controller='hamburger-menu'>
+                    <div
+                        data-action='click->hamburger-menu#open'
+                        class="bg-white w-8 h-8 flex justify-center items-center rounded-full">
+                        <i class="fa-solid fa-user"></i>
+                        {# tutaj if else wyświetlania zdjęcia profilowego #}
+                    </div>
+                    <ul data-hamburger-menu-target="menu">
+                        <li><a href="{{ path('admin_logout') }}">Log Out</a></li>
+                        <li>Settings</li>
+                    </ul>
                 </div>
+                {% endif %}
             </div>
         </nav>
         <div class="flex bg-gray-200 dark:bg-gray-800">

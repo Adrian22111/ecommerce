@@ -8,4 +8,8 @@ label.required:before {
     content: "*";
     margin-right: 2px;
 }
-
+/** It is added so hamburger menu can bi invisible at the start */
+[data-controller='hamburger-menu'] [data-hamburger-menu-target="menu"]
+{
+    /*display: none;*/
+}
