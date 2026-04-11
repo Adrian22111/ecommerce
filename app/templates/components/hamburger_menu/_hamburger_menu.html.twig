@@ -1,0 +1,19 @@
+<div data-controller='hamburger-menu'>
+    <div
+        data-action='click->hamburger-menu#open'
+    >
+        {% block trigger %}
+        {% endblock %}
+    </div>
+    <div data-hamburger-menu-target="menu"
+         class="pt-4 pb-4 w-64 h-screen fixed top-0 right-0 border-l bg-gray-200 overflow-y-auto, shadow-lg"
+    >
+        <button
+            class="absolute top-1 right-4 text-gray-500 hover:text-black text-xl font-bold hover:cursor-pointer"
+            data-action="click->hamburger-menu#close"
+        >
+            x
+        </button>
+        {% include 'components/hamburger_menu/_hamburger_menu_options.html.twig' with { options: options } %}
+    </div>
+</div>

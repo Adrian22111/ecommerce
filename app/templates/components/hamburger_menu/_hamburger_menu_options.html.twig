@@ -1,0 +1,5 @@
+<ul class="space-y-2">
+{% for option in options %}
+    {% include 'components/hamburger_menu/_hamburger_menu_option.html.twig' with {option: option} %}
+{% endfor %}
+</ul>

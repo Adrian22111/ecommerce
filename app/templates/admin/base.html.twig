@@ -14,21 +14,21 @@
     <body>
         <nav>
             <div class="px-3 py-3 flex justify-between bg-gray-200 dark:bg-gray-800">
-                <div>
-                </div>
+                <div></div>
                 {% if is_granted('ROLE_ADMIN') %}
-                <div data-controller='hamburger-menu'>
-                    <div
-                        data-action='click->hamburger-menu#open'
-                        class="bg-white w-8 h-8 flex justify-center items-center rounded-full">
-                        <i class="fa-solid fa-user"></i>
-                        {# tutaj if else wyświetlania zdjęcia profilowego #}
-                    </div>
-                    <ul data-hamburger-menu-target="menu">
-                        <li><a href="{{ path('admin_logout') }}">Log Out</a></li>
-                        <li>Settings</li>
-                    </ul>
-                </div>
+                    {% embed 'components/hamburger_menu/_hamburger_menu.html.twig' with {
+                        options: [
+                            {href: path('admin_logout'), label: 'Log Out'},
+                            {href: '#', label: 'Settings'}
+                        ]
+                    } %}
+                        {% block trigger %}
+                            <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            {# tutaj if else wyświetlania zdjęcia profilowego #}
+                        {% endblock %}
+                    {% endembed %}
                 {% endif %}
             </div>
         </nav>
