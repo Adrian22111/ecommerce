@@ -2,7 +2,7 @@
     "devDependencies": {
         "@babel/core": "^7.17.0",
         "@babel/preset-env": "^7.16.0",
-        "@hotwired/stimulus": "^3.0.0",
+        "@hotwired/stimulus": "^3.2.2",
         "@hotwired/turbo": "^7.1.1 || ^8.0",
         "@symfony/stimulus-bridge": "^3.2.0 || ^4.0.0",
         "@symfony/ux-autocomplete": "file:vendor/symfony/ux-autocomplete/assets",
@@ -30,6 +30,7 @@
         "dropzone": "^6.0.0-beta.2",
         "postcss": "^8.5.6",
         "postcss-loader": "^8.1.1",
+        "stimulus-use": "^0.52.3",
         "tailwind-merge": "^3.4.0",
         "tailwindcss": "^4.1.11"
     }

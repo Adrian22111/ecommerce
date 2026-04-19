@@ -6,14 +6,18 @@
         {% endblock %}
     </div>
     <div data-hamburger-menu-target="menu"
-         class="pt-4 pb-4 w-64 h-screen fixed top-0 right-0 border-l bg-gray-200 overflow-y-auto, shadow-lg"
+         class="pt-2 pb-2 w-64 h-screen fixed top-0 right-0 border-l bg-gray-200 overflow-y-auto shadow-lg transform transition-transform duration-300 ease-in-out"
     >
-        <button
-            class="absolute top-1 right-4 text-gray-500 hover:text-black text-xl font-bold hover:cursor-pointer"
-            data-action="click->hamburger-menu#close"
-        >
-            x
-        </button>
+        <div class="flex justify-between px-2">
+            <h3 class="font-bold">Options</h3>
+            <button
+                class="text-gray-500 hover:text-black text-xl font-bold hover:cursor-pointer"
+                data-action="click->hamburger-menu#close"
+            >
+                <i class="fa-solid fa-x fa-xs"></i>
+            </button>
+        </div>
+
         {% include 'components/hamburger_menu/_hamburger_menu_options.html.twig' with { options: options } %}
     </div>
 </div>
