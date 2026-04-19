@@ -1,0 +1,20 @@
+<nav>
+    <div class="px-3 py-3 flex justify-between bg-gray-200 dark:bg-gray-800">
+        <div></div>
+        {% if is_granted('ROLE_ADMIN') %}
+            {% embed 'components/hamburger_menu/_hamburger_menu.html.twig' with {
+                options: [
+                    {href: path('admin_logout'), label: 'Log Out'},
+                    {href: '#', label: 'Settings'}
+                ]
+            } %}
+                {% block trigger %}
+                    <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    {# tutaj if else wyświetlania zdjęcia profilowego #}
+                {% endblock %}
+            {% endembed %}
+        {% endif %}
+    </div>
+</nav>

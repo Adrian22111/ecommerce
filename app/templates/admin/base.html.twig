@@ -13,26 +13,7 @@
         <script src="https://kit.fontawesome.com/48575c0b33.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <nav>
-            <div class="px-3 py-3 flex justify-between bg-gray-200 dark:bg-gray-800">
-                <div></div>
-                {% if is_granted('ROLE_ADMIN') %}
-                    {% embed 'components/hamburger_menu/_hamburger_menu.html.twig' with {
-                        options: [
-                            {href: path('admin_logout'), label: 'Log Out'},
-                            {href: '#', label: 'Settings'}
-                        ]
-                    } %}
-                        {% block trigger %}
-                            <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            {# tutaj if else wyświetlania zdjęcia profilowego #}
-                        {% endblock %}
-                    {% endembed %}
-                {% endif %}
-            </div>
-        </nav>
+        {% include('admin/base_partials/top_nav.html.twig') %}
         <div class="flex bg-gray-200 dark:bg-gray-800">
             {% if is_granted('ROLE_ADMIN')  %}
             <aside class="w-64 dark:bg-gray-800 bg-gray-200 sticky top-0 h-screen px-4">
