@@ -1,15 +1,27 @@
 <header>
-    <div class="flex place-content-between w-full px-16 py-4">
+    <div class="flex place-content-between w-full py-4">
         <div class="w-24 h-auto">
             <a href="{{ path('client_home_page') }}">
                 <img class="w-full h-auto"src="{{ asset('images/shop_logo.png') }}" alt="logo">
             </a>
         </div>
-        <nav>
-
-        </nav>
-        <div>
-
+        <div class="flex items-center gap-2">
+            <div>
+                {% embed 'components/hamburger_menu/_hamburger_menu.html.twig' with {
+                    options: [
+                        {href: '#', label: 'Log Out'},
+                    ]
+                } %}
+                    {% block trigger %}
+                        <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full hover:cursor-pointer">
+                            <i class="fa-solid fa-user fa-xl"></i>
+                        </div>
+                    {% endblock %}
+                {% endembed %}
+            </div>
+            <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full hover:cursor-pointer">
+                <i class="fa-solid fa-cart-shopping fa-xl"></i>
+            </div>
         </div>
     </div>
 </header>
