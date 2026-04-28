@@ -1,6 +1,8 @@
 <nav>
     <div class="px-3 py-3 flex justify-between bg-gray-200 dark:bg-gray-800">
-        <div></div>
+        <a href="{{ path('client_home_page') }}" class="bg-white w-8 h-8 flex justify-center items-center rounded-full">
+            <i class="fa-solid fa-house"></i>
+        </a>
         {% if is_granted('ROLE_ADMIN') %}
             {% embed 'components/hamburger_menu/_hamburger_menu.html.twig' with {
                 options: [
@@ -9,7 +11,7 @@
                 ]
             } %}
                 {% block trigger %}
-                    <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full">
+                    <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full hover:cursor-pointer">
                         <i class="fa-solid fa-user"></i>
                     </div>
                     {# tutaj if else wyświetlania zdjęcia profilowego #}
