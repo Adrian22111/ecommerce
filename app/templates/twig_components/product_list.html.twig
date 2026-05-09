@@ -1,5 +1,12 @@
-<div>
+<div class="grid grid-cols-5 gap-8">
     {% for product in this.products %}
-        <div>{{ product.name }}</div>
+        <div>
+            <div class="max-w-full">
+                {% if product.productImages|first %}
+                    <img src="{{ this.imageUrl(product.productImages|first) }}" alt="{{ product.name }}"/>
+                    {{ product.name }}
+                {% endif %}
+            </div>
+        </div>
     {% endfor %}
 </div>

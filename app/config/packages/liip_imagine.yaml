@@ -17,3 +17,11 @@ liip_imagine:
                     size : [180, 180]
                     mode : outbound
                     allow_upscale : false
+
+        product_list_thumbnail_small:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [390, 390]
+                    mode: outbound
+                    allow_upscale: false

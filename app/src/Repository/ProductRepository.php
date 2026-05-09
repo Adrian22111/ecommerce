@@ -41,4 +41,16 @@ class ProductRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    /**
+     * @return array<int, Product>
+     */
+    public function findAllWithImages(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.productImages', 'i')
+            ->addSelect('i')
+            ->getQuery()
+            ->getResult();
+    }
+
 }

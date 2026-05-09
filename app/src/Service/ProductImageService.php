@@ -8,6 +8,7 @@ use App\Entity\ProductImage;
 use App\Service\FileHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -87,9 +88,16 @@ class ProductImageService
             return null;
         }
 
-        return $this->filterService->getUrlOfFilteredImage(
-            $this->getPublicPath($productImage),
-            $thumbName
-        );
+        try {
+            $filePath = $this->filterService->getUrlOfFilteredImage(
+                $this->getPublicPath($productImage),
+                $thumbName
+            );
+        }
+        catch (NotLoadableException $exc){
+            return null;
+        }
+
+        return $filePath;
     }
 }
