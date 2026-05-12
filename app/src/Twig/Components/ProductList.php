@@ -32,7 +32,7 @@ class ProductList
         }
         else
         {
-            return '/images/placeholders/no_image_placeholder.jpg';
+            return '/images/placeholders/corrupted_file.jpg';
         }
     }
 }

@@ -1,12 +1,25 @@
-<div class="grid grid-cols-5 gap-8">
-    {% for product in this.products %}
-        <div>
-            <div class="max-w-full">
-                {% if product.productImages|first %}
-                    <img src="{{ this.imageUrl(product.productImages|first) }}" alt="{{ product.name }}"/>
-                    {{ product.name }}
-                {% endif %}
-            </div>
-        </div>
-    {% endfor %}
+{% trans_default_domain 'client.product' %}
+
+<div class="px-8 py-4 bg-gray-200 rounded-xl">
+    <h2>{{ 'our_products'|trans }}</h2>
+    <div class="grid grid-cols-5">
+        {% for product in this.products %}
+            <a href="{{ path('client_product_show', {id: product.id}) }}" class="p-4 relative">
+                <div class="max-w-full">
+                    {% if product.productImages|first %}
+                        <img class="rounded-xl" src="{{ this.imageUrl(product.productImages|first) }}" alt="{{ product.name }}"/>
+                    {% else %}
+                        <img class="rounded-xl" src="/images/placeholders/no_image_placeholder.jpg" alt="{{ product.name }}"/>
+                    {% endif %}
+                </div>
+                <div class="mt-2">
+                    <div>{{ product.name }}</div>
+                    <div>{{ product.price }}</div>
+                </div>
+                <div class="absolute bottom-2 right-2 hidden">
+                    <i class="fa-solid fa-cart-shopping fa-xl" aria-hidden="true"></i>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
 </div>

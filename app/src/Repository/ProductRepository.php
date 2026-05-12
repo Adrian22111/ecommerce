@@ -53,4 +53,14 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findOneWithImages(int $id): ?Product
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.productImages', 'i')
+            ->addSelect('i')
+            ->where('p.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
