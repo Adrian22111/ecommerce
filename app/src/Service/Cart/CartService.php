@@ -14,7 +14,7 @@ class CartService
         private SessionCartStorage $sessionCartStorage
     ){}
 
-    public function getStorage()
+    private function getStorage()
     {
         if ($this->security->getUser()) {
             return $this->databaseCartStorage;
@@ -23,9 +23,9 @@ class CartService
         return $this->sessionCartStorage;
     }
 
-    public function addToCart()
+    public function addToCart($productId)
     {
-        $this->getStorage()->addItem();
+        $this->getStorage()->addItem($productId);
     }
 
     public function removeFromCart()
