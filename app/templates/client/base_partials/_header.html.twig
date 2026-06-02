@@ -7,17 +7,21 @@
         </div>
         <div class="flex items-center gap-2">
             <div>
-                {% embed 'components/hamburger_menu/_hamburger_menu.html.twig' with {
-                    options: [
-                        {href: '#', label: 'Log Out'},
-                    ]
-                } %}
-                    {% block trigger %}
-                        <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full hover:cursor-pointer">
-                            <i class="fa-solid fa-user fa-xl"></i>
-                        </div>
-                    {% endblock %}
-                {% endembed %}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    {% embed 'components/hamburger_menu/_hamburger_menu.html.twig' with {
+                        options: [
+                            {href: '#', label: 'Log Out'},
+                        ]
+                    } %}
+                        {% block trigger %}
+                            <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full hover:cursor-pointer">
+                                <i class="fa-solid fa-user fa-xl"></i>
+                            </div>
+                        {% endblock %}
+                    {% endembed %}
+                {% else %}
+                    <p>Here will be login button</p>
+                {% endif %}
             </div>
             <div class="bg-white w-8 h-8 flex justify-center items-center rounded-full hover:cursor-pointer">
                 <i class="fa-solid fa-cart-shopping fa-xl"></i>
