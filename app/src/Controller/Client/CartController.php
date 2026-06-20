@@ -30,7 +30,7 @@ final class CartController extends AbstractController
     ): Response
     {
         try{
-            $cartService->addToCart($productId);
+            $cartService->addToCart($productId, 1);
         } catch (\Throwable $exception) {
             return new JsonResponse([], Response::HTTP_INTERNAL_SERVER_ERROR);
         }

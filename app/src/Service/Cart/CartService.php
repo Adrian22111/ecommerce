@@ -14,7 +14,7 @@ class CartService
         private SessionCartStorage $sessionCartStorage
     ){}
 
-    private function getStorage()
+    private function getStorage(): CartStorageInterface
     {
         if ($this->security->getUser()) {
             return $this->databaseCartStorage;
@@ -23,9 +23,12 @@ class CartService
         return $this->sessionCartStorage;
     }
 
-    public function addToCart($productId)
+    public function addToCart(int $productId, int $quantity)
     {
-        $this->getStorage()->addItem($productId);
+        $cartItems = $this->getCartItems();
+        $currentQuantity = $cartItems[$productId] ?? 0;
+
+        $this->getStorage()->setQuantity($productId, $currentQuantity + $quantity);
     }
 
     public function removeFromCart()

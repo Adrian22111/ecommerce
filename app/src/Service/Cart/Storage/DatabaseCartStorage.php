@@ -6,14 +6,10 @@ use App\Service\Cart\CartStorageInterface;
 
 class DatabaseCartStorage implements CartStorageInterface
 {
-    public function addItem()
-    {
-
-    }
 
     public function removeItem()
     {
-        // TODO: Implement removeFromCart() method.
+        // TODO: Implement removeItem() method.
     }
 
     public function getCartItems()
@@ -21,9 +17,9 @@ class DatabaseCartStorage implements CartStorageInterface
         // TODO: Implement getCartItems() method.
     }
 
-    public function updateQuantity()
+    public function setQuantity(int $productId, int $quantity)
     {
-        // TODO: Implement updateQuantity() method.
+        // TODO: Implement setQuantity() method.
     }
 
     public function clear()
