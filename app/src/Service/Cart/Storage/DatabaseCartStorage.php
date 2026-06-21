@@ -7,7 +7,7 @@ use App\Service\Cart\CartStorageInterface;
 class DatabaseCartStorage implements CartStorageInterface
 {
 
-    public function removeItem()
+    public function removeItem(int $productId)
     {
         // TODO: Implement removeItem() method.
     }
@@ -25,5 +25,10 @@ class DatabaseCartStorage implements CartStorageInterface
     public function clear()
     {
         // TODO: Implement clear() method.
+    }
+
+    public function getCartItemsCount()
+    {
+        // TODO: Implement getCartItemsCount() method.
     }
 }

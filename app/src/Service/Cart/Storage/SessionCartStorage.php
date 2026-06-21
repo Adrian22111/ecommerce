@@ -45,4 +45,16 @@ class SessionCartStorage implements CartStorageInterface
     {
         $this->getSession()->remove(self::CART_KEY);
     }
+
+    public function getCartItemsCount(): int
+    {
+        $cartItems = $this->getCartItems();
+        $count = 0;
+
+        foreach ($cartItems as $productId => $quantity) {
+            $count += $quantity;
+        }
+
+        return $count;
+    }
 }

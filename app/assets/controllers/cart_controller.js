@@ -27,8 +27,16 @@ export default class extends Controller {
             const response = await axios.get(
                 `/cart/add/${this.productIdValue}`,
             );
-        } catch (error) {
 
+            document.dispatchEvent(
+                new CustomEvent('cart:updated', {
+                    detail: {
+                        'countItems': response.data.countItems,
+                    },
+                })
+            );
+        } catch (error) {
+            //TODO SHOW GENERIC FAIL ERROR
         }
     }
 }

@@ -11,4 +11,6 @@ interface CartStorageInterface
     public function setQuantity(int $productId, int $quantity);
 
     public function clear();
+
+    public function getCartItemsCount();
 }

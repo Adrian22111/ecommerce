@@ -41,6 +41,11 @@ class CartService
         return $this->getStorage()->getCartItems();
     }
 
+    public function getCartItemsCount(): int
+    {
+        return $this->getStorage()->getCartItemsCount();
+    }
+
     public function updateQuantity()
     {
         $this->getStorage()->updateQuantity();

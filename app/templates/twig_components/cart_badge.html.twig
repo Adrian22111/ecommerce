@@ -1,0 +1,24 @@
+<div class="bg-white w-8 h-8 flex justify-center items-center rounded-full hover:cursor-pointer relative"
+    data-controller="cart-badge"
+>
+    <i class="fa-solid fa-cart-shopping fa-xl"></i>
+    {% set itemsCount = this.getCartItemsCount %}
+    {% if itemsCount > 0 and itemsCount < 100 %}
+        <span class="p-1 bg-indigo-500 rounded-full text-xs absolute top-3 left-5 text-white"
+              data-cart-badge-target="itemsCount"
+        >
+            {{ itemsCount }}
+        </span>
+    {% elseif itemsCount >= 100 %}
+        <span class="p-1 bg-indigo-500 rounded-full text-xs absolute top-3 left-5 text-white"
+              data-cart-badge-target="itemsCount"
+        >
+            99+
+        </span>
+    {% else %}
+        <span class="p-1 bg-indigo-500 rounded-full text-xs absolute top-3 left-5 text-white hidden"
+              data-cart-badge-target="itemsCount"
+        >
+        </span>
+    {% endif %}
+</div>
