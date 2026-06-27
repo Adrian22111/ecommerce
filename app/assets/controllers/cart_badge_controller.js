@@ -21,10 +21,10 @@ export default class extends Controller {
         const countItems = e.detail.countItems;
 
         if (countItems > 0 && countItems < 100) {
-            this.itemsCountTarget.classList.add('block');
+            this.itemsCountTarget.classList.remove('hidden');
             this.itemsCountTarget.textContent = countItems;
-        } else if (countItems > 100) {
-            this.itemsCountTarget.classList.add('block');
+        } else if (countItems >= 100) {
+            this.itemsCountTarget.classList.remove('hidden');
             this.itemsCountTarget.textContent = '99+';
         } else {
             this.itemsCountTarget.classList.add('hidden');

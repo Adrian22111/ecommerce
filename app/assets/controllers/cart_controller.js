@@ -1,5 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import axios, { isCancel, AxiosError } from "axios";
+import Modal from "../js/classes/Modal";
+import {trans} from "../translator";
 
 /**
  * Tab controller
@@ -36,7 +38,11 @@ export default class extends Controller {
                 })
             );
         } catch (error) {
-            //TODO SHOW GENERIC FAIL ERROR
+            const modal = new Modal();
+            modal.setTitle(trans('error', {}, 'client.cart'))
+                 .setText(trans('adding_failed', {}, 'client.cart'))
+                 .setVariant("Error")
+                 .open();
         }
     }
 }

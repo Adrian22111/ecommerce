@@ -1,5 +1,6 @@
-<div class="bg-white w-8 h-8 flex justify-center items-center rounded-full hover:cursor-pointer relative"
-    data-controller="cart-badge"
+<a class="bg-white w-8 h-8 flex justify-center items-center rounded-full hover:cursor-pointer relative"
+   data-controller="cart-badge"
+   href="{{ path("client_cart") }}"
 >
     <i class="fa-solid fa-cart-shopping fa-xl"></i>
     {% set itemsCount = this.getCartItemsCount %}
@@ -21,4 +22,4 @@
         >
         </span>
     {% endif %}
-</div>
+</a>

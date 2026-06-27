@@ -19,7 +19,7 @@ final class CartController extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(): Response
     {
-        return $this->render('cart/index.html.twig', [
+        return $this->render('client/cart/index.html.twig', [
             'controller_name' => 'CartController',
         ]);
     }
@@ -33,7 +33,7 @@ final class CartController extends AbstractController
     {
         $quantity = $request->query->get('quantity', 1);
         if($quantity <= 0 ) {
-            return new JsonResponse(['error' => 'wrong quantity'], Response::HTTP_BAD_REQUEST); //TODO use lang variable
+            return new JsonResponse([],Response::HTTP_BAD_REQUEST);
         }
 
         try{
