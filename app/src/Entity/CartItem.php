@@ -6,6 +6,14 @@ use App\Repository\CartItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CartItemRepository::class)]
+#[ORM\Table(
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: 'cart_product_unique',
+            fields: ['cart', 'product']
+        )
+    ]
+)]
 class CartItem
 {
     #[ORM\Id]
