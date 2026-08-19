@@ -29,6 +29,12 @@ class CartRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function getByUser(UserInterface $user): ?Cart
+    {
+        return $this->findOneBy(['user' => $user]);
+    }
+
+
 //    /**
 //     * @return Cart[] Returns an array of Cart objects
 //     */

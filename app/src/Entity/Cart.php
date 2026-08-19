@@ -72,4 +72,9 @@ class Cart
         return $this;
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
 }

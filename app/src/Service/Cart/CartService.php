@@ -25,6 +25,8 @@ class CartService
 
     public function addToCart(int $productId, int $quantity)
     {
+        dump(123);
+        
         $cartItems = $this->getCartItems();
         $currentQuantity = $cartItems[$productId] ?? 0;
 
@@ -44,10 +46,5 @@ class CartService
     public function getCartItemsCount(): int
     {
         return $this->getStorage()->getCartItemsCount();
-    }
-
-    public function updateQuantity()
-    {
-        $this->getStorage()->updateQuantity();
     }
 }
