@@ -22,7 +22,7 @@ class CartItemRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('ci')
             ->andWhere('ci.cart = :cart')
             ->setParameter('cart', $cart)
-            ->andWhere('ci.productId = :productId')
+            ->andWhere('ci.product = :productId')
             ->setParameter('productId', $productId)
             ->getQuery()
             ->getOneOrNullResult();
