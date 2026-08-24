@@ -61,6 +61,8 @@ class DatabaseCartStorage implements CartStorageInterface
         if(null === $userCart) {
             $userCart = new Cart();
             $userCart->setUser($user);
+            $this->entityManager->persist($userCart);
+            $this->entityManager->flush();
         }
 
         return $userCart;
@@ -69,7 +71,6 @@ class DatabaseCartStorage implements CartStorageInterface
     private function getOrCreateCartItem(Cart $userCart, int $productId): CartItem
     {
         $cartItem = $this->cartItemRepository->findOneByCartAndProductId($userCart, $productId);
-
         if(!$cartItem){
             $cartItem = new CartItem();
             $product = $this->productRepository->find($productId);
