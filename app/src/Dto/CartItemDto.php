@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-readonly class CartItemDto
+class CartItemDto
 {
     public function __construct(
         public int $productId,

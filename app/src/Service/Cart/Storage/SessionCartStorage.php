@@ -23,20 +23,19 @@ class SessionCartStorage implements CartStorageInterface
 
     public function getCartItems(): array
     {
-        $result = [];
-        $cartItems = $this->getSession()->get(self::CART_KEY, []);
-        foreach ($cartItems as $productId => $quantity) {
-            $result[$productId] = new CartItemDto($productId, $quantity);
-        }
-
-        return $result;
+        return $this->getSession()->get(self::CART_KEY, []);
     }
 
     public function setQuantity(int $productId, int $quantity): void
     {
         $cartItems = $this->getCartItems();
-        $cartItems[$productId] = $quantity;
+        $cartItem = $cartItems[$productId] ?? null;
 
+        if($cartItem) {
+            $cartItem->quantity = $quantity;
+        } else {
+            $cartItems[$productId] = new CartItemDto($productId, $quantity);
+        }
         $this->getSession()->set(self::CART_KEY, $cartItems);
     }
     public function removeItem(int $productId): void
@@ -58,8 +57,8 @@ class SessionCartStorage implements CartStorageInterface
         $cartItems = $this->getCartItems();
         $count = 0;
 
-        foreach ($cartItems as $productId => $quantity) {
-            $count += $quantity;
+        foreach ($cartItems as $cartItem) {
+            $count += $cartItem->quantity;
         }
 
         return $count;

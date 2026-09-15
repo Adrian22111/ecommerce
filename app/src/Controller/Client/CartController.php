@@ -40,6 +40,7 @@ final class CartController extends AbstractController
             $cartService->addToCart($productId, $quantity);
             $countItems = $cartService->getCartItemsCount();
         } catch (\Throwable $exception) {
+            dd($exception->getMessage());
             return new JsonResponse([], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

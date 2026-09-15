@@ -27,7 +27,6 @@ class CartService
     {
         $cartItems = $this->getCartItems();
         $currentQuantity = $cartItems[$productId]->quantity ?? 0;
-
         $this->getStorage()->setQuantity($productId, $currentQuantity + $quantity);
     }
 
