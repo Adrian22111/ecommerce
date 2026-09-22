@@ -55,7 +55,7 @@ class DatabaseCartStorage implements CartStorageInterface
         return $result;
     }
 
-    private function getOrCreateCart(User $user): Cart
+    public function getOrCreateCart(User $user): Cart
     {
         $userCart = $this->cartRepository->getByUser($user);
         if(null === $userCart) {

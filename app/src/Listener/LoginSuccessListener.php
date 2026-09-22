@@ -2,46 +2,61 @@
 
 namespace App\Listener;
 
+use App\Dto\CartItemDto;
+use App\Entity\CartItem;
+use App\Entity\Product;
+use App\Repository\CartRepository;
 use App\Service\Cart\Storage\DatabaseCartStorage;
 use App\Service\Cart\Storage\SessionCartStorage;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
 #[AsEventListener(event: LoginSuccessEvent::class, method: 'mergeCarts')]
 class LoginSuccessListener
 {
-    private DatabaseCartStorage $databaseCartStorage;
-    private SessionCartStorage $sessionCartStorage;
-
     public function __construct(
-        DatabaseCartStorage $databaseCartStorage,
-        SessionCartStorage $sessionCartStorage
+        private DatabaseCartStorage $databaseCartStorage,
+        private SessionCartStorage $sessionCartStorage,
+        private Security $security,
+        private EntityManagerInterface $entityManager
     )
     {
-        $this->databaseCartStorage = $databaseCartStorage;
-        $this->sessionCartStorage = $sessionCartStorage;
+
     }
 
     public function mergeCarts(LoginSuccessEvent $loginSuccessEvent): void
     {
-        $cartItemsSession = $this->sessionCartStorage->getCartItems() ?? [];
-        $cartItemsDatabase = $this->databaseCartStorage->getCartItems() ?? [];
+        $cartItemsDtoSession = $this->sessionCartStorage->getCartItems() ?? [];
 
-        foreach($cartItemsSession as $productId => $sessionProduct) {
-            $dbProduct = $cartItemsDatabase[$productId] ?? null;
-            if($dbProduct) {
-                $dbProduct->quantity = $dbProduct->quantity + $sessionProduct->quantity;
+        $cart = $this->databaseCartStorage->getOrCreateCart($this->security->getUser());
+        $cartItems = $cart->getCartItems();
+
+        /**
+         * @var CartItemDto $cartItemDtoSession
+         */
+        foreach($cartItemsDtoSession as $cartItemDtoSession) {
+            $existingCartItem = $cartItems->findFirst(
+                fn (int $key, CartItem $item) =>
+                    (int) $item->getProduct()->getId() === (int) $cartItemDtoSession->productId
+            );
+
+            if($existingCartItem) {
+                $quantity = $existingCartItem->getQuantity() + $cartItemDtoSession->quantity;
+                $existingCartItem->setQuantity($quantity);
             } else {
-                $dbProduct = $sessionProduct;
+                $cartItem = new CartItem();
+                $cartItem->setQuantity($cartItemDtoSession->quantity);
+                $cartItem->setCart($cart);
+                $product = $this->entityManager->getReference(
+                    Product::class,
+                    $cartItemDtoSession->productId
+                );
+                $cartItem->setProduct($product);
+                $this->entityManager->persist($cartItem);
             }
-            $mergedCartItems[$productId] = $dbProduct;
         }
-
-        // databaseCartStorage setQuantity może tym? 
-
-        //TODO  mam tablicę z pozycjami zmodyfikowanymi albo nowymi, teraz edytować lub dodać te pozycje do koszyka
-
-        //TODO co jeśli koszyk nie istnieje wcześniej
-
+        $this->entityManager->flush();
     }
 }
