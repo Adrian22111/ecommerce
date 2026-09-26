@@ -54,13 +54,12 @@ class CartService
 
     public function mergeUserCarts()
     {
-        $cartItemsDtoSession = $this->sessionCartStorage->getCartItems() ?? [];
-
         $user = $this->security->getUser();
         if(!$user instanceof User){
             throw new LogicException('User must be an instance of User class');
         }
 
+        $cartItemsDtoSession = $this->sessionCartStorage->getCartItems() ?? [];
         $cart = $this->databaseCartStorage->getOrCreateCart($user);
         $cartItems = $cart->getCartItems();
 
