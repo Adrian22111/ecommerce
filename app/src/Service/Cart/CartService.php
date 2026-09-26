@@ -5,9 +5,11 @@ namespace App\Service\Cart;
 use App\Dto\CartItemDto;
 use App\Entity\CartItem;
 use App\Entity\Product;
+use App\Entity\User;
 use App\Service\Cart\Storage\DatabaseCartStorage;
 use App\Service\Cart\Storage\SessionCartStorage;
 use Doctrine\ORM\EntityManagerInterface;
+use LogicException;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class CartService
@@ -54,7 +56,12 @@ class CartService
     {
         $cartItemsDtoSession = $this->sessionCartStorage->getCartItems() ?? [];
 
-        $cart = $this->databaseCartStorage->getOrCreateCart($this->security->getUser());
+        $user = $this->security->getUser();
+        if(!$user instanceof User){
+            throw new LogicException('User must be an instance of User class');
+        }
+
+        $cart = $this->databaseCartStorage->getOrCreateCart($user);
         $cartItems = $cart->getCartItems();
 
         $productMap = [];
