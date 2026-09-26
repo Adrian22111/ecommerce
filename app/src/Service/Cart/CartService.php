@@ -2,8 +2,12 @@
 
 namespace App\Service\Cart;
 
+use App\Dto\CartItemDto;
+use App\Entity\CartItem;
+use App\Entity\Product;
 use App\Service\Cart\Storage\DatabaseCartStorage;
 use App\Service\Cart\Storage\SessionCartStorage;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class CartService
@@ -11,7 +15,8 @@ class CartService
     public function __construct(
         private Security $security,
         private DatabaseCartStorage $databaseCartStorage,
-        private SessionCartStorage $sessionCartStorage
+        private SessionCartStorage $sessionCartStorage,
+        private EntityManagerInterface $entityManager
     ){}
 
     private function getStorage(): CartStorageInterface
@@ -43,5 +48,44 @@ class CartService
     public function getCartItemsCount(): int
     {
         return $this->getStorage()->getCartItemsCount();
+    }
+
+    public function mergeUserCarts()
+    {
+        $cartItemsDtoSession = $this->sessionCartStorage->getCartItems() ?? [];
+
+        $cart = $this->databaseCartStorage->getOrCreateCart($this->security->getUser());
+        $cartItems = $cart->getCartItems();
+
+        $productMap = [];
+        foreach($cartItems as $cartItem) {
+            $productId = $cartItem->getProduct()->getId();
+            $productMap[$productId] = $cartItem;
+        }
+
+        /**
+         * @var CartItemDto $cartItemDtoSession
+         */
+        foreach($cartItemsDtoSession as $cartItemDtoSession) {
+            $existingCartItem = $productMap[$cartItemDtoSession->productId] ?? null;
+
+            if($existingCartItem) {
+                $quantity = $existingCartItem->getQuantity() + $cartItemDtoSession->quantity;
+                $existingCartItem->setQuantity($quantity);
+            } else {
+                $cartItem = new CartItem();
+                $cartItem->setQuantity($cartItemDtoSession->quantity);
+                $cartItem->setCart($cart);
+                $product = $this->entityManager->getReference(
+                    Product::class,
+                    $cartItemDtoSession->productId
+                );
+                $cartItem->setProduct($product);
+                $productMap[$cartItemDtoSession->productId] = $cartItem;
+                $this->entityManager->persist($cartItem);
+            }
+        }
+        $this->sessionCartStorage->clear();
+        $this->entityManager->flush();
     }
 }
