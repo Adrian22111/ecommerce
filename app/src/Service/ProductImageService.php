@@ -84,8 +84,10 @@ class ProductImageService
      */
     public function getThumbnailPath(ProductImage|string|null $productImage, $thumbName): ?string
     {
+        $corruptedFilePath = '/images/placeholders/corrupted_file.jpg';
+
         if($productImage === null){
-            return null;
+            return $corruptedFilePath;
         }
 
         try {
@@ -95,7 +97,7 @@ class ProductImageService
             );
         }
         catch (NotLoadableException $exc){
-            return null;
+            return $corruptedFilePath;
         }
 
         return $filePath;

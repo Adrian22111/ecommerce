@@ -25,14 +25,6 @@ class ProductList
 
     public function imageUrl(ProductImage $productImage): ?string
     {
-        $thumbPath = $this->productImageService->getThumbnailPath($productImage, 'product_list_thumbnail_small');
-        if($thumbPath)
-        {
-            return $thumbPath;
-        }
-        else
-        {
-            return '/images/placeholders/corrupted_file.jpg';
-        }
+        return $this->productImageService->getThumbnailPath($productImage, 'product_list_thumbnail_small');
     }
 }
