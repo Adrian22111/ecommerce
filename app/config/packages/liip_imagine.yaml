@@ -25,3 +25,11 @@ liip_imagine:
                     size: [390, 390]
                     mode: outbound
                     allow_upscale: false
+
+        cart_list_thumbnail_small:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [ 96, 96 ]
+                    mode: outbound
+                    allow_upscale: false

@@ -2,7 +2,11 @@
 
 namespace App\Controller\Client;
 
+use App\Entity\Product;
+use App\Entity\ProductImage;
+use App\Repository\ProductRepository;
 use App\Service\Cart\CartService;
+use App\Service\ProductImageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +15,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CartController extends AbstractController
 {
-    public function __construct()
+    public function __construct(
+        private CartService $cartService,
+        private ProductRepository $productRepository
+    )
     {
 
     }
@@ -19,14 +26,21 @@ final class CartController extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(): Response
     {
+        $cartItemDtos  = $this->cartService->getCartItems();
+//        $productIds = [];
+//        foreach ($cartItemDtos as $cartItemDto) {
+//           $productIds[] = $cartItemDto->product->getId();
+//        }
+//        $products = $this->productRepository->findWithImagesWhereIdIn($productIds);
+
         return $this->render('client/cart/index.html.twig', [
-            'controller_name' => 'CartController',
+            'cartItemDtos' => $cartItemDtos,
         ]);
     }
 
-    #[Route('/cart/add/{productId}', name: 'add_to_cart', methods: ['GET'])]
+    #[Route('/cart/add/{product}', name: 'add_to_cart', methods: ['GET'])]
     public function addToCart(
-        $productId,
+        Product $product,
         Request $request,
         CartService $cartService
     ): Response
@@ -37,10 +51,9 @@ final class CartController extends AbstractController
         }
 
         try{
-            $cartService->addToCart($productId, $quantity);
+            $cartService->addToCart($product, $quantity);
             $countItems = $cartService->getCartItemsCount();
         } catch (\Throwable $exception) {
-            dd($exception->getMessage());
             return new JsonResponse([], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 

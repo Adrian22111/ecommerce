@@ -3,6 +3,7 @@
 namespace App\Service\Cart;
 
 use App\Dto\CartItemDto;
+use App\Entity\Product;
 
 interface CartStorageInterface
 {
@@ -13,7 +14,7 @@ interface CartStorageInterface
      */
     public function getCartItems(): array;
 
-    public function setQuantity(int $productId, int $quantity);
+    public function setQuantity(Product $product, int $quantity);
 
     public function clear();
 

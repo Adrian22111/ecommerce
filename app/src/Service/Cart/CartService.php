@@ -30,11 +30,11 @@ class CartService
         return $this->sessionCartStorage;
     }
 
-    public function addToCart(int $productId, int $quantity)
+    public function addToCart(Product $product, int $quantity)
     {
         $cartItems = $this->getCartItems();
-        $currentQuantity = $cartItems[$productId]->quantity ?? 0;
-        $this->getStorage()->setQuantity($productId, $currentQuantity + $quantity);
+        $currentQuantity = $cartItems[$product->getId()]->quantity ?? 0;
+        $this->getStorage()->setQuantity($product, $currentQuantity + $quantity);
     }
 
     public function removeFromCart()
@@ -73,7 +73,7 @@ class CartService
          * @var CartItemDto $cartItemDtoSession
          */
         foreach($cartItemsDtoSession as $cartItemDtoSession) {
-            $existingCartItem = $productMap[$cartItemDtoSession->productId] ?? null;
+            $existingCartItem = $productMap[$cartItemDtoSession->product->getId()] ?? null;
 
             if($existingCartItem) {
                 $quantity = $existingCartItem->getQuantity() + $cartItemDtoSession->quantity;
@@ -82,12 +82,8 @@ class CartService
                 $cartItem = new CartItem();
                 $cartItem->setQuantity($cartItemDtoSession->quantity);
                 $cartItem->setCart($cart);
-                $product = $this->entityManager->getReference(
-                    Product::class,
-                    $cartItemDtoSession->productId
-                );
-                $cartItem->setProduct($product);
-                $productMap[$cartItemDtoSession->productId] = $cartItem;
+                $cartItem->setProduct($cartItemDtoSession->product);
+                $productMap[$cartItemDtoSession->product->getId()] = $cartItem;
                 $this->entityManager->persist($cartItem);
             }
         }

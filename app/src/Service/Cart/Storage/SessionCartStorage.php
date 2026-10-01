@@ -3,6 +3,7 @@
 namespace App\Service\Cart\Storage;
 
 use App\Dto\CartItemDto;
+use App\Entity\Product;
 use App\Service\Cart\CartStorageInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -26,15 +27,16 @@ class SessionCartStorage implements CartStorageInterface
         return $this->getSession()->get(self::CART_KEY, []);
     }
 
-    public function setQuantity(int $productId, int $quantity): void
+    public function setQuantity(Product $product, int $quantity): void
     {
         $cartItems = $this->getCartItems();
+        $productId = $product->getId();
         $cartItem = $cartItems[$productId] ?? null;
 
         if($cartItem) {
             $cartItem->quantity = $quantity;
         } else {
-            $cartItems[$productId] = new CartItemDto($productId, $quantity);
+            $cartItems[$productId] = new CartItemDto($product, $quantity);
         }
         $this->getSession()->set(self::CART_KEY, $cartItems);
     }

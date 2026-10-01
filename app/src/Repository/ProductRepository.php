@@ -2,9 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Cart;
+use App\Entity\CartItem;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
+use mysql_xdevapi\Collection;
 
 /**
  * @extends ServiceEntityRepository<Product>
@@ -41,6 +45,22 @@ class ProductRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+
+    /**
+     * @param array $productIds
+     * @return mixed
+     */
+    public function findWithImagesWhereIdIn(array $productIds): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->leftJoin('p.productImages', 'i')
+            ->addSelect('i')
+            ->where('p.id IN (:ids)')
+            ->setParameter('ids', $productIds)
+            ->getQuery()
+            ->getResult();
+    }
     /**
      * @return array<int, Product>
      */
