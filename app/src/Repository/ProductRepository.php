@@ -83,4 +83,13 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findWhereIdIn(array $productIds): array
+    {
+        return $this->createQueryBuilder('p', 'p.id')
+            ->andWhere('p.id IN (:ids)')
+            ->setParameter('ids', $productIds)
+            ->getQuery()
+            ->getResult();
+    }
 }

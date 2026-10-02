@@ -19,16 +19,16 @@
                     {% for cartItemDto in cartItemDtos %}
                         <div class="flex gap-4 bg-gray-200 px-4 py-2 rounded-md">
                             <div class="max-w-24">
-                                {% if cartItemDto.product.productImages|first %}
-                                    <img class="rounded-md" src="{{ thumbnailPath(cartItemDto.product.productImages|first, 'cart_list_thumbnail_small') }}" alt="{{ product.name }}"/>
-                                {% else %}
-                                    <img class="rounded-md" src="/images/placeholders/no_image_placeholder.jpg" alt="{{ cartItemDto.product.name }}"/>
-                                {% endif %}
+{#                                {% if cartItemDto.product.productImages|first %}#}
+{#                                    <img class="rounded-md" src="{{ thumbnailPath(cartItemDto.product.productImages|first, 'cart_list_thumbnail_small') }}" alt="{{ product.name }}"/>#}
+{#                                {% else %}#}
+                                    <img class="rounded-md" src="/images/placeholders/no_image_placeholder.jpg" alt="{{ cartItemDto.name }}"/>
+{#                                {% endif %}#}
                             </div>
                             <div class="flex justify-between w-full">
-                                <div>{{ cartItemDto.product.name }}</div>
+                                <div>{{ cartItemDto.name }}</div>
                                 <div class="flex flex-col items-end">
-                                    <div>{{ cartItemDto.product.price }}</div>
+                                    <div>{{ cartItemDto.price }}</div>
                                     <div>{{ cartItemDto.quantity }}</div>
                                 </div>
                             </div>

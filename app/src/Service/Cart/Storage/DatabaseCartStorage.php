@@ -46,9 +46,12 @@ class DatabaseCartStorage implements CartStorageInterface
 
         $result = [];
         foreach($cart->getCartItems() as $cartItem) {
+            $product = $cartItem->getProduct();
             $result[$cartItem->getProduct()->getId()] = new CartItemDto(
-                $cartItem->getProduct()->getId(),
+                $product->getId(),
+                $product->getName(),
                 $cartItem->getQuantity(),
+                $product->getPrice()
             );
         }
 

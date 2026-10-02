@@ -4,6 +4,7 @@ namespace App\Service\Cart\Storage;
 
 use App\Dto\CartItemDto;
 use App\Entity\Product;
+use App\Repository\ProductRepository;
 use App\Service\Cart\CartStorageInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -11,10 +12,12 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class SessionCartStorage implements CartStorageInterface
 {
     private const CART_KEY = 'cart';
-    private RequestStack $requestStack;
-    public function __construct(RequestStack $requestStack)
+    public function __construct(
+        private RequestStack $requestStack,
+        private ProductRepository $productRepository,
+    )
     {
-        $this->requestStack = $requestStack;
+
     }
 
     public function getSession(): SessionInterface
@@ -24,21 +27,32 @@ class SessionCartStorage implements CartStorageInterface
 
     public function getCartItems(): array
     {
-        return $this->getSession()->get(self::CART_KEY, []);
+        $sessionCartItems = $this->getSession()->get(self::CART_KEY, []);
+        $productIds = array_keys($sessionCartItems);
+        $products = $this->productRepository->findWhereIdIn($productIds);
+
+        $cartItemDtos = [];
+        foreach ($sessionCartItems as $productId => $quantity) {
+            $product = $products[$productId] ?? null;
+            if($product) {
+                $cartItemDtos[$productId] = new CartItemDto(
+                    $product->getId(),
+                    $product->getName(),
+                    $quantity,
+                    $product->getPrice()
+                );
+            }
+        }
+
+        return $cartItemDtos;
     }
 
     public function setQuantity(Product $product, int $quantity): void
     {
-        $cartItems = $this->getCartItems();
-        $productId = $product->getId();
-        $cartItem = $cartItems[$productId] ?? null;
+        $sessionCartItems = $this->getSession()->get(self::CART_KEY, []);
+        $sessionCartItems[$product->getId()] = $quantity;
 
-        if($cartItem) {
-            $cartItem->quantity = $quantity;
-        } else {
-            $cartItems[$productId] = new CartItemDto($product, $quantity);
-        }
-        $this->getSession()->set(self::CART_KEY, $cartItems);
+        $this->getSession()->set(self::CART_KEY, $sessionCartItems);
     }
     public function removeItem(int $productId): void
     {

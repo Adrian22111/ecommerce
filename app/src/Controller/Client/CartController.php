@@ -27,11 +27,6 @@ final class CartController extends AbstractController
     public function index(): Response
     {
         $cartItemDtos  = $this->cartService->getCartItems();
-//        $productIds = [];
-//        foreach ($cartItemDtos as $cartItemDto) {
-//           $productIds[] = $cartItemDto->product->getId();
-//        }
-//        $products = $this->productRepository->findWithImagesWhereIdIn($productIds);
 
         return $this->render('client/cart/index.html.twig', [
             'cartItemDtos' => $cartItemDtos,

@@ -7,8 +7,10 @@ use App\Entity\Product;
 class CartItemDto
 {
     public function __construct(
-        public Product $product,
+        public int $productId,
+        public string $name,
         public int $quantity,
+        public int $price,
     )
     {}
 }
