@@ -36,6 +36,7 @@ class ProductImageService
             try{
                 $productImage = new ProductImage();
                 $productImage->setName($uploadResult->getFileName());
+                $productImage->setPosition(999);
                 $product->addProductImage($productImage);
 
                 $this->entityManager->persist($product);

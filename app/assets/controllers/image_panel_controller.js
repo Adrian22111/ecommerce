@@ -63,7 +63,8 @@ export default class extends Controller {
 
     generateImageItem(image) {
         const imageItem = document.createElement("div");
-        imageItem.classList.add("relative", "group/imyz", "image_"+image.id);
+        imageItem.classList.add("relative", "group/imyz");
+        imageItem.setAttribute('data-image-id', image.id);
 
         const img = document.createElement("img");
         img.src = image.src;

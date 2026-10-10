@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Product;
 use App\Entity\ProductImage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -40,4 +41,63 @@ class ProductImageRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function updateProductImagesOrder(Product|int $product, array $imagesOrder)
+    {
+        if($product instanceof Product) {
+            $productId = $product->getId();
+        } else {
+            $productId = $product;
+        }
+
+        if (empty($imagesOrder)) {
+            return;
+        }
+
+        $cases = [];
+        $params = [
+            'productId' => $productId,
+        ];
+
+        foreach ($imagesOrder as $imageId => $position) {
+            $cases[] = 'WHEN id = ? THEN ?';
+            $params[] = $imageId;
+            $params[] = $position + 1;
+        }
+
+        $ids = array_keys($imagesOrder);
+        $placeholders = implode(', ', array_fill(0, count($ids), '?'));
+
+        $sql = sprintf(
+            'UPDATE product_image
+         SET position = CASE %s ELSE position END
+         WHERE product_id = ? AND id IN (%s)',
+            implode(' ', $cases),
+            $placeholders
+        );
+
+        // Parametry pozycyjne muszą odpowiadać kolejności placeholderów.
+        $params = [];
+
+        foreach ($imagesOrder as $imageId => $position) {
+            $params[] = $imageId;
+            $params[] = $position;
+        }
+
+        $params[] = $productId;
+
+        foreach ($ids as $id) {
+            $params[] = $id;
+        }
+
+        $this->getEntityManager()
+            ->getConnection()
+            ->executeStatement($sql, $params);
+    }
+
+    public function findImagesByProduct(Product|int $product)
+    {
+
+
+    }
 }

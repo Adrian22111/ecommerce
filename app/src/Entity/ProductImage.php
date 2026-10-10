@@ -23,6 +23,9 @@ class ProductImage
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $lastUpdate = null;
 
+    #[ORM\Column]
+    private ?int $position = null;
+
     public function __construct()
     {
         $this->lastUpdate = new \DateTimeImmutable();
@@ -65,6 +68,18 @@ class ProductImage
     public function setProduct(?Product $product): static
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): static
+    {
+        $this->position = $position;
 
         return $this;
     }

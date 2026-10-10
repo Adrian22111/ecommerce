@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\ProductImageRepository;
 use DateTime;
 use DateTimeImmutable;
 use App\Entity\Product;
@@ -192,5 +193,33 @@ final class ProductController extends AbstractController
         }
 
         return new JsonResponse($images, 200);
+    }
+
+    #[Route('/{id}/images/order', name: 'product_images_order', methods: ['PUT'])]
+    public function updateProductImagesOrder(
+        int $id,
+        Request $request,
+        ProductImageRepository $productImageRepository,
+        EntityManagerInterface $entityManager,
+    ): Response
+    {
+        //TODO  CSRF TOKEN
+
+        $imagesOrder = array_flip($request->toArray());
+        $productImageRepository->updateProductImagesOrder($id, $imagesOrder);
+//        $productImages = $productImageRepository->findImagesByProduct($id);
+//        foreach ($productImages as $productImage) {
+//            $position = $imagesOrder[$productImage->getId()] ?? null;
+//            if(null !== $position) {
+//                $productImage->setPosition($position + 1);
+//                $entityManager->persist($productImage);
+//            }
+//        }
+        $entityManager->flush();
+
+        return $this->json([
+            'success' => true,
+            'iamgesOrder' => $imagesOrder,
+        ]);
     }
 }

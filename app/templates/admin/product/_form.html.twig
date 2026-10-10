@@ -51,11 +51,20 @@
                 </div>
                 <div
                     data-controller="image-panel"
-                    data-image-panel-target="imageWrapper"
                     data-image-panel-product-id-value = "{{ product.id }}"
                     data-image-panel-fetch-url-value = "{{ path('admin_product_images', {'id': product.id}) }}"
                     data-image-panel-csrf-token-value = "{{ csrf_token('delete_product_image' ~ product.id) }}"
-                    class="mt-4">
+                    class="mt-4"
+                >
+                    <div
+                        data-controller="sortable"
+                        data-sortable-animation-value="150"
+                        data-image-panel-target="imageWrapper"
+                        data-sortable-target="imageWrapper"
+                        data-sortable-item-id-value="data-image-id"
+                        data-sortable-change-order-url-value="{{ path('admin_product_images_order', {'id': product.id}) }}">
+                    >
+                    </div>
                 </div>
             </div>
         {% endif %}
