@@ -27,12 +27,10 @@ export default class extends Controller {
     }
 
     async onEnd(e) {
-        //TODO ajax do zapisania w bazie dancyh
         await this.saveNewOrder(this.sortable.toArray());
     }
 
     async saveNewOrder(itemsSequence) {
         const response = await axios.put(this.changeOrderUrlValue, itemsSequence);
-        console.log(response);
     }
 }

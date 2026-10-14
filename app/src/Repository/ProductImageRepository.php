@@ -54,50 +54,29 @@ class ProductImageRepository extends ServiceEntityRepository
             return;
         }
 
-        $cases = [];
-        $params = [
-            'productId' => $productId,
-        ];
+        $cases = $params = [];
 
         foreach ($imagesOrder as $imageId => $position) {
             $cases[] = 'WHEN id = ? THEN ?';
             $params[] = $imageId;
             $params[] = $position + 1;
         }
-
-        $ids = array_keys($imagesOrder);
-        $placeholders = implode(', ', array_fill(0, count($ids), '?'));
-
-        $sql = sprintf(
-            'UPDATE product_image
-         SET position = CASE %s ELSE position END
-         WHERE product_id = ? AND id IN (%s)',
-            implode(' ', $cases),
-            $placeholders
-        );
-
-        // Parametry pozycyjne muszą odpowiadać kolejności placeholderów.
-        $params = [];
-
-        foreach ($imagesOrder as $imageId => $position) {
-            $params[] = $imageId;
-            $params[] = $position;
-        }
-
         $params[] = $productId;
 
-        foreach ($ids as $id) {
-            $params[] = $id;
-        }
+        $sql = "
+            UPDATE product_image
+            SET position =
+                CASE %s
+                ELSE position
+                END
+            WHERE
+                product_id = ?
+        ";
 
-        $this->getEntityManager()
+        $sql = sprintf($sql, implode(' ', $cases));
+
+       return $this->getEntityManager()
             ->getConnection()
             ->executeStatement($sql, $params);
-    }
-
-    public function findImagesByProduct(Product|int $product)
-    {
-
-
     }
 }

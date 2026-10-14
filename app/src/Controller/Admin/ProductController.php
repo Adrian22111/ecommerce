@@ -204,22 +204,10 @@ final class ProductController extends AbstractController
     ): Response
     {
         //TODO  CSRF TOKEN
-
+        //TODO sprawdzić czy kombinując z id w formularzu mogę zaktualizowaćinny produkt
         $imagesOrder = array_flip($request->toArray());
         $productImageRepository->updateProductImagesOrder($id, $imagesOrder);
-//        $productImages = $productImageRepository->findImagesByProduct($id);
-//        foreach ($productImages as $productImage) {
-//            $position = $imagesOrder[$productImage->getId()] ?? null;
-//            if(null !== $position) {
-//                $productImage->setPosition($position + 1);
-//                $entityManager->persist($productImage);
-//            }
-//        }
-        $entityManager->flush();
 
-        return $this->json([
-            'success' => true,
-            'iamgesOrder' => $imagesOrder,
-        ]);
+        return new JsonResponse(null, 200);
     }
 }
