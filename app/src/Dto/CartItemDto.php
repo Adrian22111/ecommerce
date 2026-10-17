@@ -2,7 +2,6 @@
 
 namespace App\Dto;
 
-use App\Entity\Product;
 
 class CartItemDto
 {
@@ -11,6 +10,7 @@ class CartItemDto
         public string $name,
         public int $quantity,
         public int $price,
+        public string $image = '',
     )
     {}
 }

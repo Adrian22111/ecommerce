@@ -15,18 +15,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CartController extends AbstractController
 {
-    public function __construct(
-        private CartService $cartService,
-        private ProductRepository $productRepository
-    )
-    {
-
-    }
+    public function __construct(){}
 
     #[Route('/cart', name: 'cart')]
-    public function index(): Response
+    public function index(CartService $cartService): Response
     {
-        $cartItemDtos  = $this->cartService->getCartItems();
+        $cartItemDtos  = $cartService->getCartItems();
 
         return $this->render('client/cart/index.html.twig', [
             'cartItemDtos' => $cartItemDtos,

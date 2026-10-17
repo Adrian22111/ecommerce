@@ -48,7 +48,7 @@ class ProductRepository extends ServiceEntityRepository
 
     /**
      * @param array $productIds
-     * @return mixed
+     * @@return array<int, Product>
      */
     public function findWithImagesWhereIdIn(array $productIds): array
     {
@@ -58,6 +58,7 @@ class ProductRepository extends ServiceEntityRepository
             ->addSelect('i')
             ->where('p.id IN (:ids)')
             ->setParameter('ids', $productIds)
+            ->indexBy('p', 'p.id')
             ->getQuery()
             ->getResult();
     }

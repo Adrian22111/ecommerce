@@ -4,6 +4,7 @@ namespace App\Service\Cart\Storage;
 
 use App\Dto\CartItemDto;
 use App\Entity\Product;
+use App\Entity\ProductImage;
 use App\Repository\ProductRepository;
 use App\Service\Cart\CartStorageInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -29,17 +30,24 @@ class SessionCartStorage implements CartStorageInterface
     {
         $sessionCartItems = $this->getSession()->get(self::CART_KEY, []);
         $productIds = array_keys($sessionCartItems);
-        $products = $this->productRepository->findWhereIdIn($productIds);
-
+        $products = $this->productRepository->findWithImagesWhereIdIn($productIds);
         $cartItemDtos = [];
         foreach ($sessionCartItems as $productId => $quantity) {
             $product = $products[$productId] ?? null;
             if($product) {
+                $mainImage = $product->getProductImages()->first();
+                if($mainImage instanceof ProductImage) {
+                    $mainImageName = $mainImage->getName();
+                } else {
+                    $mainImageName = '';
+                }
+
                 $cartItemDtos[$productId] = new CartItemDto(
                     $product->getId(),
                     $product->getName(),
                     $quantity,
-                    $product->getPrice()
+                    $product->getPrice(),
+                    $mainImageName,
                 );
             }
         }

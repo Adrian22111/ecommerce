@@ -6,6 +6,7 @@ use App\Dto\CartItemDto;
 use App\Entity\Cart;
 use App\Entity\CartItem;
 use App\Entity\Product;
+use App\Entity\ProductImage;
 use App\Entity\User;
 use App\Repository\CartItemRepository;
 use App\Repository\CartRepository;
@@ -47,11 +48,20 @@ class DatabaseCartStorage implements CartStorageInterface
         $result = [];
         foreach($cart->getCartItems() as $cartItem) {
             $product = $cartItem->getProduct();
+            $mainImage = $product->getProductImages()->first();
+
+            if($mainImage instanceof ProductImage) {
+                $mainImageName = $mainImage->getName();
+            } else {
+                $mainImageName = '';
+            }
+
             $result[$cartItem->getProduct()->getId()] = new CartItemDto(
                 $product->getId(),
                 $product->getName(),
                 $cartItem->getQuantity(),
-                $product->getPrice()
+                $product->getPrice(),
+                $mainImageName
             );
         }
 
