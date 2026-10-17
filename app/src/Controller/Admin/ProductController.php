@@ -200,14 +200,20 @@ final class ProductController extends AbstractController
         int $id,
         Request $request,
         ProductImageRepository $productImageRepository,
-        EntityManagerInterface $entityManager,
-    ): Response
+        TranslatorInterface $translator,
+    ): JsonResponse
     {
-        //TODO  CSRF TOKEN
-        //TODO sprawdzić czy kombinując z id w formularzu mogę zaktualizowaćinny produkt
-        $imagesOrder = array_flip($request->toArray());
-        $productImageRepository->updateProductImagesOrder($id, $imagesOrder);
+        if (!$this->isCsrfTokenValid('sort_product_image' . $id , $request->headers->get('X-CSRF-TOKEN'))) {
+            return new JsonResponse([
+                'error' => $translator->trans('invalid_csrf', [], 'error')
+            ], Response::HTTP_FORBIDDEN);
+        }
 
-        return new JsonResponse(null, 200);
+        $imagesOrder = array_flip($request->toArray());
+        $editedProductsNumber = $productImageRepository->updateProductImagesOrder($id, $imagesOrder);
+
+        return new JsonResponse([
+            'editedProductsNumber' => $editedProductsNumber
+        ], Response::HTTP_NO_CONTENT);
     }
 }

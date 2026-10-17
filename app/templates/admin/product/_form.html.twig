@@ -62,7 +62,9 @@
                         data-image-panel-target="imageWrapper"
                         data-sortable-target="imageWrapper"
                         data-sortable-item-id-value="data-image-id"
-                        data-sortable-change-order-url-value="{{ path('admin_product_images_order', {'id': product.id}) }}">
+                        data-sortable-change-order-url-value="{{ path('admin_product_images_order', {'id': product.id}) }}"
+                        data-sortable-csrf-token-value="{{ csrf_token('sort_product_image' ~ product.id) }}"
+                    >
                     >
                     </div>
                 </div>

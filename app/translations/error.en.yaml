@@ -1,1 +1,2 @@
-invalid_csrf: "Invalid CSRF Token"
+invalid_csrf: "Invalid CSRF Token, refresh the form and try again"
+authorization_error_title: 'Authorization error'

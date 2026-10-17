@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus";
 import Sortable from 'sortablejs';
 import axios from "axios";
-import {useClickOutside} from "stimulus-use";
+import ModalFactory from "../js/classes/ModalFactory";
+import {trans} from "../translator";
+import Modal from "../js/classes/Modal";
 
 
 /**
@@ -17,6 +19,7 @@ export default class extends Controller {
     static values = {
         itemId: String,
         changeOrderUrl: String,
+        csrfToken: String,
     };
 
     connect() {
@@ -31,6 +34,22 @@ export default class extends Controller {
     }
 
     async saveNewOrder(itemsSequence) {
-        const response = await axios.put(this.changeOrderUrlValue, itemsSequence);
+        try {
+            const response = await axios.put(this.changeOrderUrlValue, itemsSequence, {
+                headers: {
+                    'X-CSRF-TOKEN': this.csrfTokenValue
+                }
+            });
+        } catch (e) {
+            if (e.response?.status === 403 && e.response?.data?.error) {
+                const modal = new Modal();
+                return modal.setTitle(trans('authorization_error_title', {}, 'error'))
+                    .setText(e.response.data?.error)
+                    .setVariant("Error")
+                    .open();
+            }
+
+            return ModalFactory.create('unexpectedError').open();
+        }
     }
 }

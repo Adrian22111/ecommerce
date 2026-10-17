@@ -51,7 +51,7 @@ class ProductImageRepository extends ServiceEntityRepository
         }
 
         if (empty($imagesOrder)) {
-            return;
+            return 0 ;
         }
 
         $cases = $params = [];
